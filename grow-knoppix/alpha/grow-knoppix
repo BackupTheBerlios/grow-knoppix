@@ -1,8 +1,5 @@
 #!/bin/bash
-# $Revision: 1.11 $ ~ $Name:  $ ~  $Author: paradocs $ ~  $Date: 2004/05/03 07:40:46 $
-#Matt hacked in 04/04/09 changed work xxxx yyyz
-#Added may 2 2004 
-# Set the next line for your own default DVD device, likely /dev/cdrom1 
+# Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/mnt/cdrom"
@@ -14,7 +11,7 @@ export XDIALOG_HIGH_DIALOG_COMPAT
 
 echo -n "LANGUAGE=\"" > /var/tmp/LANGUAGE_CHOICE
 
-Xdialog --title "GROW_KNOPPIX     SCREEN: A" --no-tags --radiolist "\n\n\
+Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Publish your content in the root of a new KNOPPIX based live boot DVD.\n\
 Change the boot.img file, background image, index.html, and desktop.\n\n\
 Kopiere dein Inhalt in die root einer neuen Knoppix basierten live DVD.\n\
@@ -30,12 +27,12 @@ und den Desktop.\n\n\
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/LANGUAGE_CHOICE  #End quote for variable in file
-. /var/tmp/LANGUAGE                       #Source: run the file, set variable
+. /var/tmp/LANGUAGE_CHOICE                #Source: run the file, set variable
 LANGUAGE=${LANGUAGE%?}                    #Trim off unwanted tail
-rm /var/tmp/LANGUAGE_CHOICE
+####  rm /var/tmp/LANGUAGE_CHOICE
 
 if [ $EXIT_CODE -ne 0 ] ; then \
-Xdialog --title "GROW_KNOPPIX     SCREEN: A-C" --msg "\
+Xdialog --title "GROW_KNOPPIX " --msg "\
 Thanks to kano.de the IRC community of free.node.net #kanotix #knoppix\n\
 This is experimental software -- use it at you own risk.\n
         Your reports and contributions will be appreciated.\n\n\
@@ -59,7 +56,7 @@ Boston, MA  02111-1307, USA.\n\n\n\
 " 38 85
 
 
-Xdialog --title "GROW_KNOPPIX     SCREEN: A-C-O" --msg "\
+Xdialog --title "GROW_KNOPPIX " --msg "\
 GROW_KNOPPIX is a simple way to publish content on a boot-able DVD.\n\n\
 VERSIONS: This should work with future KNOPPIX, KANOTIX and remastered\n\
           versions.  Keeping up with the latest version is simplified.\n\
@@ -75,7 +72,7 @@ SPEED:    Since data must be read in fast enought to supply the burner\n\
           sufficently fast drives, processor, and memory is needed.\n\
 CONTENT:  Copy the content to be place on the root of the DVD to\n\
           /home/knoppix/GROW_KNOPPIX/ROOT and up to 3 additional\n\
-          directores on hard drives or CD's.\n\
+	  directores on  hard drives or CD's.\n\
 FILES:    You must have no directories or files with the same name to\n\
           be combined.  The container directory/s is/are not created,\n\
           only the contents are combined in the root of the new DVD.\n\
@@ -94,16 +91,18 @@ SPECIAL:  Customizing scripts can be run from knoppix.sh to make menus\n\
 exit
 fi
 
-Xdialog --title "GROW_KNOPPIX     SCREEN: A-O" --inputbox "\
+Xdialog --title "GROW_KNOPPIX " --inputbox "\
 1)  Boot from the KNOPPIX or KANOTIX version of your choice.\n\
 2)  Set the path below to the location of KNOPPIX/KNOPPIX folder.\n\
 3)* Create at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
 4)* Copy /mnt/cdrom/KNOPPIX/boot.img  into your KNOPPIX subdirectory.\n\
 5)* Copy /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
+*   Note: Steps 3,4,5 are done when you click  OK or Cancel.\n\
 6)  Add content to ROOT subdirectory.  You may also use 3  hard drive\n\
     directories for more content than will fit in ROOT subdirectory.\n\
-*   Note: Steps 3,4,5 are done when you click  OK or Cancel.\n\n\
-The only file to be placed in GROW_KNOPPIX/KNOPPIX is boot.img.\n\
+7)  Optional 7 & 8: Create configs.tbz and knoppix.sh if desired.\n\
+    Desktop configurations will then be restored when the DVD boots.\n\
+8)  Files place in ~/GROW_KNOPPIX/HOME will be copied to /home/knoppix.\n\n\
 If not already there, boot.img will be copied from the the boot CD/DVD.\n\
 Editing boot.img is possible but is beyond the level of this project.\n\n\
 The existing file index.html will be copyed from the boot CD DVD to\n\
@@ -119,12 +118,16 @@ index.html information available to credit the original KNOPPIX disk.\n\n\
 EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
 rm /var/tmp/KNOPPIX_PATH
+
 # make directories and copy files if not done manually or previously
 mkdir /home/knoppix/GROW_KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
 cp -u /mnt/cdrom/index.html /home/knoppix/GROW_KNOPPIX/ROOT/index.html
+mkdir /var/tmp/GK_KNOPPIX
+mkdir /var/tmp/GK_KNOPPIX/KNOPPIX
 if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
@@ -132,13 +135,13 @@ fi
 #set a variable with the DVD write device
 echo -n "DVD_DEV=\"" > /var/tmp/DVD_DEV
 
-Xdialog --title "GROW_KNOPPIX:     SCREEN: A-O-O" --inputbox "\
+Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Your DVD burner device is set below.\n\n\
 Note: your DVD burner may be referred to as one of the following:\n\
     /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\n\
 For live boot, the CD DVD  that you boot from is /dev/cdrom.\n\n\
-From a shell, entering:\n\
-                       cat /ect/fstab      you will see your devices.\n\n\n\
+If this entry is not correct, you can see your devices by entering:\n\
+    cat /ect/fstab    from a console window.\n\n\
 Change the entry below if necessary.  Then,   to proceed hit \n\n\n\n\n\n\n\n\
                  OK               or            Cancel\
 " 35 85 $DVD_BURNER  2>> /var/tmp/DVD_DEV
@@ -153,10 +156,15 @@ DVD_DEV=${DVD_DEV%?}    #Glob strip of one character form the end
 rm /var/tmp/DVD_DEV     #Clean up
 
 ## set the default paths and add up to three more
-echo -n "DVD_ROOT=\"/ramdisk/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
-/home/knoppix/GROW_KNOPPIX/KNOPPIX/ " > /var/tmp/DVD_ROOT
+##echo -n "DVD_ROOT=\"/ramdisk/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
+##/home/knoppix/GROW_KNOPPIX/KNOPPIX/ /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
+####tried to put knoppix.sh and configs.tbz in /KNOPPIX but failed
+####I may need a second bind to do this.
 
-Xdialog --title "GROW_KNOPPIX:     SCREEN: A-O-O-O" --3inputsbox "\
+echo -n "DVD_ROOT=\"/ramdisk/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
+/home/knoppix/GROW_KNOPPIX/KNOPPIX/ /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
+
+Xdialog --title "GROW_KNOPPIX " --3inputsbox "\
 Content may come from up to 3 additional directories.\n\n\
 The first directory created previously should \
 include the file:   index.html\n\n\
@@ -186,41 +194,129 @@ rm /var/tmp/DVD_ROOT_PATHS
 if [ $EXIT_CODE -ne 0 ] ; then exit
 fi
 
-# NOT IMPORTANT?  can put stringes on disk but are they useful  ????
+
+
+
+Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+You may now save your desktop configuration if you wish.\n\
+On boot your desktop changes with be restored.\n\n\
+This will place configs.tbz and knoppix.sh on your new DVD.\n\
+Once you have a DVD with these files you may not use grow-knoppix to\n\
+change or remove them.  For that you must start with a fresh KNOPPIX CD.\n\
+Leave the box checked NO to skip this or if you already these files on\n\
+the DVD you have booted from.\n\n\n\
+            OK     I have checked:             Cancel   Exit now.\n\n\
+            YES for a new configs.tbz          You may make the  \n\
+            and knoppix.sh to be added.        desired desktop changes\n\n\
+                         or                              and\n\n\
+            NO  for not changing or not        return later.\n\
+            adding these files.\n\
+" 35 85 10 "SAVE_CONFIG=0" "NO, do not make new configuration files" "on" "SAVE_CONFIG=1" "YES make new configuration files." "off" \
+2> /var/tmp/GK_DESKTOP
+EXIT_CODE=$?
+
+. /var/tmp/GK_DESKTOP
+rm /var/tmp/GK_DESKTOP
+
+if [ $EXIT_CODE -ne 0 ] ; then \
+exit
+fi
+
+if [ $SAVE_CONFIG -eq 1 ] ; then \
+cp /usr/sbin/saveconfig /var/tmp/GK_SAVE1; \
+sudo chmod a+x /var/tmp/GK_SAVE1; \
+
+awk '!/^FLOPPYDIR=/ {print ;} /^FLOPPYDIR=/ {print $1" "$2" /var/tmp/GK_KNOPPIX/KNOPPIX " $4" "$5" "$6" "$7}' /var/tmp/GK_SAVE1 > /var/tmp/GK_SAVE2
+
+awk '/^umountfloppy(){\nmount | grep -q \"\$FLOPPYDIR/ {print "exit" ;} !/^umountfloppy(){\nmount | grep -q \"\$FLOPPYDIR/  {print}' /var/tmp/GK_SAVE2 > /var/tmp/GK_SAVE1
+    
+awk '/^PARTITIONS=/ {print "PARTITIONS=\"/var/tmp/GK_KNOPPIX/KNOPPIX [/var/tmp/GK_KNOPPIX/KNOPPIX] on\"";} !/^PARTITIONS=/ {print}' /var/tmp/GK_SAVE1 > /var/tmp/GK_SAVE2
+
+awk '/^mount/ {print "#"} !/^mount/ {print}' /var/tmp/GK_SAVE2 > /var/tmp/GK_SAVE1
+
+
+#############################
+
+exec /var/tmp/GK_SAVE1 &
+
+Xdialog --title "GROW_KNOPPIX " --msg "\
+WAIT\n\nClick   OK    after \n\
+finishing configuration archive dialog has give the success \
+message. The final message does not apply to grow-knoppix. \
+The files will be placed the DVD root and will be detected at boot.\n\
+" 30 20
+rm GK_SAVE1
+rm GK_SAVE2
+
+
+Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+In addition to configuration files, you may have some files  placed in\n\
+/home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
+These will appear in the /home/knoppix directory after each boot.\n\
+Caution: This recopies the same files at each boot and may not work\n\
+with persistent home.\n\n\
+            OK     I have checked:             Cancel   Exit now.\n\n\
+            YES so that my files will          You may make the  \n\
+            be copied to HOME on boot.         desired desktop changes\n\n\
+                         or                              and\n\n\
+            NO   I do not want additional      return later.\n\
+            files copied into HOME.\n\
+" 35 85 10 "GK_HOME=0" "NO, do not copy additional files to HOME on boot." "on" "GK_HOME=1" "YES copy file to /home/knoppix on boot." "off" \
+2> /var/tmp/GK_HOME
+EXIT_CODE=$?
+
+. /var/tmp/GK_HOME
+rm /var/tmp/GK_HOME
+if [ $EXIT_CODE -ne 0 ] ; then \
+exit
+fi
+
+if [ $GK_HOME -eq 1 ] ; then \
+sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
+sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
+
+#sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
+#sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
+
+echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo -n "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+fi
+
+fi
+
+# NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
 # the following reads these strings from the new DVD
 ### data="`dd if=/dev/cdrom ibs=1024 skip=32 count=1 2>/dev/null`"
-# use one string --  no spaces  VERSION small   P and  p up to 128 
-#VERSION='grow-knoppix'
+# use one string --  no spaces  VERSION 16 characters,  P and  p up to 128 
 #  hwclock | sed 's/ /_/g' | sed 's/............seconds/_|_/' > /var/tmp/GK_PUBLISHER2
 # uname -snrv | sed 's/ /_/g' >> /var/tmp/GK_PUBLISHER2
 
-Xdialog --title "GROW_KNOPPIX:     A-O-O-O-O" --yesno "\
-You must not place two files or directores of \
-the same name on the DVD root.\n\n\n\
-Here are your settings:\n\n\
-Your directory  KNOPPIX  with the file  KNOPPIX  is at -->\n\
-$KNOPPIX_PATH\n\
-Your burner is at -->\n\
-$DVD_DEV\n\
-You are bringing together content from -->\n\
-$DVD_ROOT\n\n\n\
-To test or to burn -- you must have a blank DVD in the drive.\n\n\n\n\n\n\
-               Hit YES to                      Hit NO for a\n\
-               BURN NOW!                       dry-run test\n\
-"   35 85
+Xdialog --title "GROW_KNOPPIX " --yesno "\
+Now check and add files in GROW_KNOPPIX to  KNOPPIX  HOME  ROOT\n\n\
+You have made the following settings;\n\n\
+Your directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
+-->$KNOPPIX_PATH\n\n\
+Your burner is at:\n\
+-->$DVD_DEV\n\n\
+You are bringing together content from:\n\
+-->$DVD_ROOT\n\n\
+To dry-run test or to burn -- you must have a blank DVD in the drive.\n\n\
+           YES to do a dry-run.              NO to skip the dry-run.\
+" 35 85
 EXIT_CODE=$?
 
-if [ $EXIT_CODE -ne 0 ] ; then \
+if [ $EXIT_CODE -ne 1 ] ; then \
 #######REPEATED CODE
 mkdir /ramdisk/BindCD
 mkdir /ramdisk/BindCD/KNOPPIX
+sudo chmod -R a+rwx /ramdisk/BindCD
+sudo chown -R knoppix.knoppix /ramdisk/BindCD
 echo -n "/home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img 100002\n" >/var/tmp/GK_SORT
 echo -n "/home/knoppix/GROW_KNOPPIX/KNOPPIX/KNOPPIX 100001" >>/var/tmp/GK_SORT
 
 echo -n "sudo mount --bind " > /var/tmp/GK_BURN
 echo -n $KNOPPIX_PATH >> /var/tmp/GK_BURN
 echo -n "/KNOPPIX/ /ramdisk/BindCD/KNOPPIX ;" >> /var/tmp/GK_BURN
-
 echo -n "growisofs -dry-run -dvd-compat -speed=1 -Z " >> /var/tmp/GK_BURN
 echo -n $DVD_DEV >> /var/tmp/GK_BURN
 echo -n " -pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
@@ -230,20 +326,20 @@ echo -n "-b boot.img -c boot.cat -hide-rr-moved " >> /var/tmp/GK_BURN
 echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 
 echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
-echo -n "; echo "SUCCESSFUL if is says - - - Writing:  The File - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
+echo -n "; echo "dry-run OK if is says - - - Writing:  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
 xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
-sudo umount /ramdisk/BindCD/KNOPPIX
-rm -R -f /ramdisk/BindCD
-rm /var/tmp/GK_BURN
+ sudo umount /ramdisk/BindCD/KNOPPIX
+ rm -R -f /ramdisk/BindCD
+ rm /var/tmp/GK_BURN
 #####END REPEATED CODE 
 fi
 
 echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
 
-Xdialog --title "GROW_KNOPPIX     SCREEN: A-O-O-O-O-O" --inputbox "\
+Xdialog --title "GROW_KNOPPIX " --inputbox "\
 When the test has finished look at the results.\n\
-If it says:       Writing:   The File(s)      then the test was good.\n\
+If it says:       Writing:         then the test was good.\n\
 Close the results box.  Then you may click YES to burn the DVD.\n\n\
 Here are your settings:\n\n\
 Your directory  KNOPPIX  with the file  KNOPPIX  is at -->\n\
