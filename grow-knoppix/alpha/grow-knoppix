@@ -1,5 +1,5 @@
 #!/bin/bash
-#Matt hacked in 04/04/09 changed
+#Matt hacked in 04/04/09 changed working
 # Set the next line for your own default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
