@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>grow-knoppix</name>
-	<comment></comment>
+	<comment>Xdialog script creates a boot-able live DVD that is a copy of a 
+    KNOPPIX version plus user content added to the root of the new DVD.  
+    The guide allows easy publishing and including of new boot.img,
+    background, startup index.html, and desktop on your custom DVD.    
+    
+    Kopiere dein Inhalt in die root einer neuen Knoppix basierten live DVD.
+    Ändere die Datei boot.img, das Hintergrundbild, die index.html und den Desktop. </comment>
 	<projects>
 	</projects>
 	<buildSpec>
