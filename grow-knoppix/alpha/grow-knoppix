@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Revision $
+# $Revision: 1.10 $ ~ $Name:  $ ~  $Author: paradocs $ ~  $Date: 2004/05/01 07:57:53 $
 #Matt hacked in 04/04/09 changed work xxxx yyyz
 # Set the next line for your own default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
