@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Revision: 1.15 $ $Name:  $ $Author: paradocs $ $Date: 2004/05/04 08:47:53 $
+# $Revision: 1.16 $ $Name:  $ $Author: paradocs $ $Date: 2004/05/04 09:07:01 $
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
@@ -205,14 +205,13 @@ Once you have a DVD with these files, grow-knoppix may not be used to\n\
 change or remove them.  Start with a fresh KNOPPIX CD to change them.\n\n\
 Changing the background image for the desktop requires burning 2 DVDs.\n\
 Place the jpg image or images in ~/GROW_KNOPPIX/ROOT and burn the DVD \n\
-leaving the box checked NO.  Starting with that DVD, right clik \n\
-the desktop and clik Configure Desktop to set the image or slide show.\n\
-This time select YES so the new congiguration is added to the new DVD.\n\n\
-Leave the box checked NO to skip this or if you already these files on\n\
-the DVD you have booted from.\n\
+leaving this box checked NO.  Then starting with that DVD, right click \n\
+the desktop and click Configure Desktop to set the image or slide show.\n\
+This time select YES so the new configuration is added to the new DVD.\n\n\
+Check the box NO to skip this or if your DVD already has these files.\n\
             OK     I have checked:             Cancel   Exit now.\n\n\
             YES for a new configs.tbz          You may make the  \n\
-            and knoppix.sh to be added.        desired desktop changes\n\n\
+            and knoppix.sh to be added.        desired desktop changes\n\
                          or                              and\n\
             NO  for not changing or not        return later.\n\
             adding these files.\n\
