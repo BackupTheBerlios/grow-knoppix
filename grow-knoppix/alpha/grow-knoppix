@@ -1,4 +1,5 @@
 #!/bin/bash
+# $Revision: 1.13 $ $Name:  $ $Author: paradocs $ $Date: 2004/05/03 08:40:08 $
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
