@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.24 2005/04/14 07:43:25 paradocs Exp $
-# Checkout tag name $Name:  $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.25 2005/04/14 10:24:50 paradocs Exp $
+# Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.25  2005/04/14 10:24:50  paradocs
+# More editing of the menues to make it clearer.
+#
 # Revision 1.24  2005/04/14 07:43:25  paradocs
 # Editing the help menues
 #
@@ -121,15 +124,17 @@ fi
 echo -n "BOOT_VERSION=\"" > /var/tmp/BOOT_VERSION
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-You must have a KNOPPIX or KANOTIX CD in you CD drive.\n\
-  Perhaps a partition with a copy or an iso could be used. (UNTESTED)\n\
-  Select the boot method for your version of knoppix or kanotix.\n\
-\n\n\
-            OK                             Cancel   \n\n\n\
+Have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\n\
+1)  Select the boot method for your version of knoppix or kanotix.\n\
+2)  Click on OK to setup at home:\n\
+       GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
+       Copy boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+       Copy /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\n\
+If these files already exist, clicking OK will not change them.\n\n\
 " 35 85 10 \
-"boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5   KNOPPIX 3.3" "off" \
-"isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4" "off" \
-"stage1_5" "TYPE=/boot/grub/stage2 KANOTIX BH6" "on" 2>> /var/tmp/BOOT_VERSION
+"boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5     KNOPPIX 3.3" "off" \
+"isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4    3.8.1" "off" \
+"stage1_5" "TYPE=/boot/grub/stage2 KANOTIX BH6    2005-2" "on" 2>> /var/tmp/BOOT_VERSION
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/BOOT_VERSION  #End quote for variable in file
@@ -140,29 +145,26 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 ########
 
+
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
-1)  Boot from the KNOPPIX or KANOTIX version of your choice.\n\
-2)  Set the path below for the KNOPPIX/KNOPPIX folder on your CD.\n\
-3)* Create at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
-4)* Copy boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
-5)* Copy /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
-*   Note: Steps 3,4,5 are done when you click  OK or Cancel.\n\
-6)  Add content to ROOT subdirectory.  You may also use 3  hard drive\n\
-    directories for more content to combine with the ROOT subdirectory.\n\
-7)  Optional: configs.tbz and knoppix.sh put in ~/ GROW_KNOPPIX/KNOPPIX\n\
-    Desktop configurations will then be restored when the DVD boots.\n\
-8)  Optional: Files in ~/GROW_KNOPPIX/HOME will be copied to  ~/  HOME.\n\n\
-If not already placed there, the boot files will be copied from the CD.\n\
-Editing boot.img or /boot/isolinux/isoliunx.cfg is now possible.\n\n\
-The existing file index.html will be copyed from the boot CD DVD to\n\
-the subdirectory ROOT unless there is already one there. You may edit\n\
-the index.html to describe you content.  Please make the original\n\
-index.html information available to credit the original KNOPPIX disk.\n\n\
-      OK     I am happy with        Cancel    !/GROW_KNOPPIX will be\n\
-      the content in                set up - but existing files will\n\
-      ~/GROW_KNOPPIX. I am          no be changed.  Hit Cancel and add\n\
-      ready to test and burn.       content. Then run this a second\n\
-      Hit OK  to test and burn.     time and pick  OK  next time.\n\
+BOOT     The boot files have been copied from the CD.  You may edit\n\
+boot.img,   /boot/isolinux/isoliunx.cfg   or   /grub/stage2.\n\
+The DVD can boot with special cheat codes with no intervention.\n\n\
+INDEX    The file index.html has been copied from the boot CD DVD to\n\
+the subdirectory ROOT.  You may edit index.html to describe you content.\n\
+Please make the original index.html information available and give\n\
+credit to the the original KNOPPIX disk.\n\n\
+CONTENT  You may add files and directroies to:\n\
+         GROW_KNOPPIX/ROOT/HOME to be copied to you home directory.\n\
+         GROW_KNOPPIX/ROOT to be copied to the ROOT of you DVD\n\
+         (Links to more contents and program will be added later.)\n\n\
+The entry below must point to your bootable CD to be copied.\n\
+      /mnt/cdrom   or   /mnt/cdrom1\n\n\n\
+      OK     I am happy with        Cancel\n\
+      the content in                You may hit cancel and add\n\
+      ~/GROW_KNOPPIX.               content and edit files in\n\
+      Hit OK to specify your        ~/GROW_KNOPPIX. Then run this\n\
+      method for burning a DVD.     again and pick  OK  next time.\n\
 "   35 85 $KNOPPIX_PATH  2>> /var/tmp/KNOPPIX_PATH
 EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
