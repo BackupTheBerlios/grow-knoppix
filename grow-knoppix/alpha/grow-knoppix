@@ -1,5 +1,5 @@
 #!/bin/bash
-# $Revision: 1.21 $ $Name:  $ $Author: paradocs $ $Date: 2004/05/19 02:35:01 $
+# $Revision: 1.22 $ $Name:  $ $Author: paradocs $ $Date: 2005/04/14 03:22:39 $
 #May 16 2004 -----
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
@@ -15,9 +15,9 @@ echo -n "LANGUAGE=\"" > /var/tmp/LANGUAGE_CHOICE
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Publish your content in the root of a new KNOPPIX based live boot DVD.\n\
-Change the boot.img file, background image, index.html, and desktop.\n\n\
+Change the boot file, background image, index.html, and desktop.\n\n\
 Kopiere dein Inhalt in die root einer neuen Knoppix basierten live DVD.\n\
-Ändere die Datei boot.img, das Hintergrundbild, die index.html\n\
+Ändere die Datei boot, das Hintergrundbild, die index.html\n\
 und den Desktop.\n\n\
             OK     I have read             Cancel   Please read the help\n\
             the copyright and help.        and the GNU copyright.\n\n\
