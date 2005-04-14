@@ -1,12 +1,14 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.23 2005/04/14 06:42:02 paradocs Exp $
-# Chedkout tag name $Name:  $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.24 2005/04/14 07:43:25 paradocs Exp $
+# Checkout tag name $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.24  2005/04/14 07:43:25  paradocs
+# Editing the help menues
+#
 # Revision 1.23  2005/04/14 06:42:02  paradocs
 # Add headders for CVS    Reverted to version released on the web site
 #
-
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="cdrom1"
@@ -23,9 +25,9 @@ echo -n "LANGUAGE=\"" > /var/tmp/LANGUAGE_CHOICE
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Publish your content in the root of a new KNOPPIX based live boot DVD.\n\
-Change the boot.img file, background image, index.html, and desktop.\n\n\
+Change the boot file, background image, index.html, and desktop.\n\n\
 Kopiere dein Inhalt in die root einer neuen Knoppix basierten live DVD.\n\
-Ändere die Datei boot.img, das Hintergrundbild, die index.html\n\
+Ändere die Datei boot, das Hintergrundbild, die index.html\n\
 und den Desktop.\n\n\
             OK     I have read             Cancel   Please read the help\n\
             the copyright and help.        and the GNU copyright.\n\n\
@@ -43,9 +45,6 @@ LANGUAGE=${LANGUAGE%?}                    #Trim off unwanted tail
 
 if [ $EXIT_CODE -ne 0 ] ; then \
 Xdialog --title "GROW_KNOPPIX " --msg "\
-Thanks to kano.de the IRC community of free.node.net #kanotix #knoppix\n\
-This is experimental software -- use it at you own risk.\n
-        Your reports and contributions will be appreciated.\n\n\
   Copyright (C) 2004   David M. Tan Creti <paradocs@berlios.de>\n\
                        Dyslexia Project\n\
                        Crawford County Memorial Hospital\n\
@@ -57,19 +56,22 @@ of the License, or (at your option) any later version.\n\n\
 This program is distributed in the hope that it will be useful,\n\
 but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n\
-See the GNU General Public License for more details.\n\n\
+See the GNU General Public License for more details.\n\
 You should have received a copy of the GNU General Public License\n\
 along with this program; if not, write to the\n\
 Free Software Foundation, Inc., 59 Temple Place - Suite 330,\n\
-Boston, MA  02111-1307, USA.\n\n\n\
-                              Hit OK for HELP\
+Boston, MA  02111-1307, USA.\n\n\
+                             THANKS TO:\n  
+kano.de and the IRC community of free.node.net #kanotix #knoppix\n\
+This is experimental software -- use it at you own risk.\n
+        Your reports and contributions will be appreciated.\n\n\
+                         Hit OK for more HELP\
 " 38 85
 
 
 Xdialog --title "GROW_KNOPPIX " --msg "\
-GROW_KNOPPIX is a simple way to publish content on a boot-able DVD.\n\n\
-VERSIONS: This should work with future KNOPPIX, KANOTIX and remastered\n\
-          versions.  Keeping up with the latest version is simplified.\n\
+VERSIONS: The goal it to update to work with future KNOPPIX, KANOTIX\n\
+          versions.  Remaking a DVD with the latest version is easy.\n\
 SKILL:    This guide is designed to require only basic computer skills.\n\
 ARCHIVE:  Archivists worry that electronic materials will quickly\n\
           become unreadable.  By keeping an operating system with the\n\
@@ -77,12 +79,12 @@ ARCHIVE:  Archivists worry that electronic materials will quickly\n\
           of electronic content.\n\
 SYSTEM:   The system required is a boot-able CD/DVD reader, DVD writer,\n\
           and a recomended 512MB memory.  No hard drive in required\n\
-          but one may be needed for copying large content to the DVD.\n\
+          but one is needed for copying large content to the DVD.\n\
 SPEED:    Since data must be read in fast enought to supply the burner\n\
           sufficently fast drives, processor, and memory is needed.\n\
-CONTENT:  Copy the content to be place on the root of the DVD to\n\
-          /home/knoppix/GROW_KNOPPIX/ROOT and up to 3 additional\n\
-          directores on  hard drives or CD's.\n\
+CONTENT:  Content may be place on the root of the DVD, copied into\n\
+          /home/knoppix/  directory and as of 3.8.1 UNIONFS allows\n\
+          adding new programs and configuration files to liunx root.\n\
 FILES:    You must have no directories or files with the same name to\n\
           be combined.  The container directory/s is/are not created,\n\
           only the contents are combined in the root of the new DVD.\n\
@@ -96,8 +98,22 @@ DESKTOP:  Desktop settings may be saved. K -> KNOPPIX -> Configure\n\
           -> save KNOPPIX conf.  Files knoppix.sh and configs.tbz may\n\
           be placed in /home/knoppix/GROW_KNOPPIX/ \n\
 SPECIAL:  Customizing scripts can be run from knoppix.sh to make menus\n\
-          and changes to your home and configuration files.\n\
+          and changes home and configuration files.\n\
+                         Hit OK for more HELP\
 " 40 85
+
+Xdialog --title "GROW_KNOPPIX " --msg "\
+    Steps to create a DVD:\n\
+1)  Boot from the KNOPPIX or KANOTIX CD. Get grow-knoppix and run it.\n\
+2)  Select the KNOPPIX or KANOTIX type of boot version.\n\
+3)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
+4)  Creates at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
+    Copys boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+    Copys /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
+5)  Pick to make an .ios file to burn later or burn directly to a DVD.\n\
+                             Hit OK to EXIT\
+" 40 85
+
 exit
 fi
 
