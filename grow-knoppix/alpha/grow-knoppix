@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.26 2005/04/15 08:54:36 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.27 2005/04/16 05:32:10 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.27  2005/04/16 05:32:10  paradocs
+# Changed parcing of dvd burner and speed and iso and /path/my.iso
+#
 # Revision 1.26  2005/04/15 08:54:36  paradocs
 # Further editing of menues
 #
@@ -17,7 +20,7 @@
 #
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
-DVD_BURNER="cdrom1"
+DVD_BURNER="/dev/cdrom1"
 BURN_SPEED="0"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/mnt/cdrom"
@@ -208,7 +211,7 @@ For example:  iso\n\
               /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
                           to proceed hit \n\n\n\n\n\n\
                  OK               or            Cancel\
-" 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: cdrom cdrom1 cdrom2 ----or enter---- /path/name.ios" \
+" 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ] ; then \
@@ -218,9 +221,12 @@ fi
 echo -n "\"" >> /var/tmp/GK_DVD_DEV        #End quote for variable in file
 . /var/tmp/GK_DVD_DEV      #Source: run the file, set variable
 GK_DVD_DEV=${GK_DVD_DEV%?}    #Glob strip of one character form the end
-DVD_DEV=/dev/${GK_DVD_DEV#*/}
-BURN_SPEED=${GK_DVD_DEV%/*}
+DVD_DEV=${GK_DVD_DEV#*/}
+BURN_SPEED=${GK_DVD_DEV%%/*}
+                          
 rm /var/tmp/DVD_DEV     #Clean up
+
+
 
 ## set the default paths and add up to three more
 ##echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
@@ -358,9 +364,9 @@ Xdialog --title "GROW_KNOPPIX " --yesno "\
                           FINAL CHECK\n\n\
 Clone directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
 -->$KNOPPIX_PATH\n\n\
-Your burner is at:                ---or--- the iso path/name is:\n\
+Your burner is at:                ---or--- the iso file /path/name is:\n\
 -->$DVD_DEV\n\n\
-Your burner speed ( 0 = default)  ---or--- burn    iso    selected:\n\
+Your burner speed ( 0 = default)  ---or--- make an iso file  selected:\n\
 -->$BURN_SPEED\n\n\
 You are bringing together content from:\n\
 -->$DVD_ROOT\n\n\
