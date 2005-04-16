@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.27 2005/04/16 05:32:10 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.28 2005/04/16 08:26:15 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.28  2005/04/16 08:26:15  paradocs
+# added mkisofs option, problem with flag -P 'publisher1'
+#
 # Revision 1.27  2005/04/16 05:32:10  paradocs
 # Changed parcing of dvd burner and speed and iso and /path/my.iso
 #
@@ -372,8 +375,10 @@ You are bringing together content from:\n\
 -->$DVD_ROOT\n\n\
 Your boot type is:\n\
 -->$BOOT_VERSION\n\n\
-To dry-run test or to burn -- you must have a blank DVD in the drive.\n\n\
-           YES to do a dry-run.              NO to skip the dry-run.\
+YES: To dry-run test -- if have a blank DVD in the drive.\n\
+YES: To make ios file -- if burnspeed=iso and /path/name.iso is valid.\n\n\
+YES to do a dry-run               NO to skip the dry-run.\n\
+    or make iso file                                     \
 " 35 85
 EXIT_CODE=$?
 
@@ -386,10 +391,15 @@ sudo chmod -R a+rwx /var/tmp/BindCD
 sudo chown -R knoppix.knoppix /var/tmp/BindCD
 echo -n "/home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img 100002\n" >/var/tmp/GK_SORT
 echo -n "/home/knoppix/GROW_KNOPPIX/KNOPPIX/KNOPPIX 100001" >>/var/tmp/GK_SORT
-
 echo -n "sudo mount --bind " > /var/tmp/GK_BURN
 echo -n $KNOPPIX_PATH >> /var/tmp/GK_BURN
 echo -n "/KNOPPIX/ /var/tmp/BindCD/KNOPPIX ;" >> /var/tmp/GK_BURN
+
+if [ $BURN_SPEED = "iso" ]; then
+echo -n "mkisofs -o " >> /var/tmp/GK_BURN
+echo -n "$DVD_DEV " >> /var/tmp/GK_BURN
+else    
+
 echo -n "growisofs " >> /var/tmp/GK_BURN
 echo -n "-dry-run " >> /var/tmp/GK_BURN
 echo -n "-dvd-compat " >> /var/tmp/GK_BURN
@@ -397,8 +407,10 @@ if [ $BURN_SPEED != "0" ]; then
     echo -n "-speed=$BURN_SPEED " >> /var/tmp/GK_BURN
 fi
 echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
+fi
+
 echo -n "-pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -P 'PUBLISHER1' -p 'PUBLISHER2' " >> /var/tmp/GK_BURN
+echo -n "-V 'grow_knoppix1234' -p 'PUBLISHER1' -p 'PUBLISHER2' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
@@ -412,12 +424,12 @@ fi
 echo -n "-hide-rr-moved " >> /var/tmp/GK_BURN
 echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 
-echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
+#  echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
 echo -n "; echo "dry-run OK if is says - - - Writing:  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
 #echo -n "; echo "CONGRATUALTIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
-xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
- sudo umount /var/tmp/BindCD/KNOPPIX
+sudo xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
+sudo umount /var/tmp/BindCD/KNOPPIX
  rm -R -f /var/tmp/BindCD
  rm /var/tmp/GK_BURN
 #####END REPEATED CODE 
