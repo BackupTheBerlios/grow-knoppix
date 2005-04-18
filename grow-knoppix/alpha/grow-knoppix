@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.31 2005/04/18 02:27:32 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.32 2005/04/18 03:30:32 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.32  2005/04/18 03:30:32  paradocs
+# Corrected: need to save DESKTOP before allowing DESKTOP and HOME to work.
+#
 # Revision 1.31  2005/04/18 02:27:32  paradocs
 # Moved setup of BORW_KNOPPIX directories
 #
@@ -168,16 +171,18 @@ echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
 
 Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
 BURN DVD:  Make sure your DVD burner device is set below.\n\
-For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
-For help you can see your devices by entering: cat /etc/fstab.\n\
-Leave the Burn Speed set to zero to avoid getting the error message:\n\
---unable to change burn speed--\n\n\
+    For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
+    For help you can see your devices by entering: cat /etc/fstab.\n\
+    Keep the Burn Speed set to zero to avoid getting the error message:\n\
+    --unable to change burn speed--\n\n\
                             -or-\n\n\
-MAKE IOS:  Enter     iso   in the first line.\n\
-Enter a path to a directory and name you ios in the second line.\n\
-For example:  iso\n\
-              /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
-          to proceed and set up /home/knoppix/GROW_KNOPPIX  hit \n\n\n\n\
+MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
+          The above means the iso file is not simply copied onto a disk.\n\
+    Enter     iso   in the first line.\n\
+    Enter a path to a directory and name you ios in the second line.\n\
+          For example:  iso\n\
+                        /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
+     to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\n\n\n\
                  OK               or            Cancel\
 " 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
@@ -193,29 +198,28 @@ mkdir /home/knoppix/GROW_KNOPPIX/ROOT
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 
-
-
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
 for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
                             OPTIONS:\n\
-BOOT     The boot files have been copied from the CD.  You may edit:\n\
-boot.img,   /boot/isolinux/isoliunx.cfg   or   /grub/menu.1st\n\
-Your new disk can then boot with your cheat codes with no intervention.\n\n\
-INDEX    The file index.html has been copied from the boot CD to\n\
-the subdirectory ROOT.  You may edit index.html to describe you content.\n\
-Please make the original index.html information available and give\n\
-credit to the the original KNOPPIX disk.\n\n\
-CONTENT  You may add files and directroies to:\n\
-         GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
-         GROW_KNOPPIX/ROOT/DESKTOP to be copied to your desktop each boot.\n
-         GROW_KNOPPIX/ROOT to be copied to the ROOT of you CD/DVD\n\
-         (Links to add content from hard dirives may be added later.)\n\n\
+CONTENT  You may add files and directories to:\n\
+    GROW_KNOPPIX/ROOT to be copied to the root of you CD/DVD\n\
+    (For the next 2, answer YES to make a new configuration file.)\n\   
+    GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
+    GROW_KNOPPIX/ROOT/DESKTOP to be copied to your desktop each boot.\n
+    (Links to add content from hard dirives may be added later.)\n\n\
+INDEX    The file index.html has been copied from the boot CD to the\n\
+    GROW_KNOPPIX/ROOT.  You may edit index.html to describe you content.\n\
+    Please make the original index.html information available and give\n\
+    credit to the the original KNOPPIX disk.\n\n\
+BOOT     Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
+    boot.img   -or-    /boot/isolinux/isoliunx.cfg   -or-   /grub/menu.1st\n\
+    Advanced users may choose to edit these files.\n\n\
       OK     I am happy with           Cancel\n\
       the content in                   You may hit cancel and add\n\
       ~/GROW_KNOPPIX.                  content and edit files in\n\
-      Hit OK to specify your           ~/GROW_KNOPPIX. Then run this\n\
-      method to make a new disk.       again and pick  OK  next time.\n\
+      Hit OK to specify more           ~/GROW_KNOPPIX. Then run this\n\
+      content links to hard drives.    again and pick  OK  next time.\n\
 "   35 85 $KNOPPIX_PATH  2>> /var/tmp/KNOPPIX_PATH
 EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
@@ -234,7 +238,6 @@ if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
 
-
 echo -n "\"" >> /var/tmp/GK_DVD_DEV        #End quote for variable in file
 . /var/tmp/GK_DVD_DEV      #Source: run the file, set variable
 GK_DVD_DEV=${GK_DVD_DEV%?}    #Glob strip of one character form the end
@@ -242,8 +245,6 @@ DVD_DEV=${GK_DVD_DEV#*/}
 BURN_SPEED=${GK_DVD_DEV%%/*}
                           
 rm /var/tmp/DVD_DEV     #Clean up
-
-
 
 ## set the default paths and add up to three more
 ##echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
