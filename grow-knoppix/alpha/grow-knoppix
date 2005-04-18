@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.30 2005/04/18 01:26:47 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.31 2005/04/18 02:27:32 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.31  2005/04/18 02:27:32  paradocs
+# Moved setup of BORW_KNOPPIX directories
+#
 # Revision 1.30  2005/04/18 01:26:47  paradocs
 # moved the request for DVD drive or ios one ahead
 #
@@ -174,7 +177,7 @@ MAKE IOS:  Enter     iso   in the first line.\n\
 Enter a path to a directory and name you ios in the second line.\n\
 For example:  iso\n\
               /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
-                          to proceed hit \n\n\n\n\n\n\
+          to proceed and set up /home/knoppix/GROW_KNOPPIX  hit \n\n\n\n\
                  OK               or            Cancel\
 " 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
@@ -183,6 +186,12 @@ if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
 
+# make directories and copy files if not done manually or previously
+mkdir /home/knoppix/GROW_KNOPPIX
+mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 
 
 
@@ -212,12 +221,6 @@ EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
 rm /var/tmp/KNOPPIX_PATH
 
-# make directories and copy files if not done manually or previously
-mkdir /home/knoppix/GROW_KNOPPIX
-mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
-mkdir /home/knoppix/GROW_KNOPPIX/ROOT
-mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
-mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 ####need to make   cdrom a varable $KNOPPIX_PATH
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
 cp -uRf /mnt/cdrom/boot /home/knoppix/GROW_KNOPPIX/ROOT/
