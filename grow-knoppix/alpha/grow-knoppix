@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.28 2005/04/16 08:26:15 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.29 2005/04/18 01:13:22 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.29  2005/04/18 01:13:22  paradocs
+# added GROW_KNOPPIX/DESKTOP adding method
+#
 # Revision 1.28  2005/04/16 08:26:15  paradocs
 # added mkisofs option, problem with flag -P 'publisher1'
 #
@@ -36,9 +39,9 @@ export XDIALOG_HIGH_DIALOG_COMPAT
 echo -n "LANGUAGE=\"" > /var/tmp/LANGUAGE_CHOICE
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-Publish your content in the root of a new KNOPPIX based live boot DVD.\n\
+Publish your content in the root of a new KNOPPIX based live boot CD/DVD.\n\
 Change the boot file, background image, index.html, and desktop.\n\n\
-Kopiere dein Inhalt in die root einer neuen Knoppix basierten live DVD.\n\
+Kopiere dein Inhalt in die root einer neuen Knoppix basierten live CD/DVD.\n\
 Ändere die Datei boot, das Hintergrundbild, die index.html\n\
 und den Desktop.\n\n\
             OK     I have read             Cancel   Please read the help\n\
@@ -157,24 +160,25 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
-for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\n\
+for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
                             OPTIONS:\n\
-BOOT     The boot files have been copied from the CD.  You may edit\n\
-boot.img,   /boot/isolinux/isoliunx.cfg   or   /grub/stage2.\n\
-The DVD can boot with special cheat codes with no intervention.\n\n\
-INDEX    The file index.html has been copied from the boot CD DVD to\n\
+BOOT     The boot files have been copied from the CD.  You may edit:\n\
+boot.img,   /boot/isolinux/isoliunx.cfg   or   /grub/menu.1st\n\
+Your new disk can then boot with your cheat codes with no intervention.\n\n\
+INDEX    The file index.html has been copied from the boot CD to\n\
 the subdirectory ROOT.  You may edit index.html to describe you content.\n\
 Please make the original index.html information available and give\n\
 credit to the the original KNOPPIX disk.\n\n\
 CONTENT  You may add files and directroies to:\n\
-         GROW_KNOPPIX/ROOT/HOME to be copied to you home directory.\n\
-         GROW_KNOPPIX/ROOT to be copied to the ROOT of you DVD\n\
-         (Links to more contents and program will be added later.)\n\n\n\
-      OK     I am happy with        Cancel\n\
-      the content in                You may hit cancel and add\n\
-      ~/GROW_KNOPPIX.               content and edit files in\n\
-      Hit OK to specify your        ~/GROW_KNOPPIX. Then run this\n\
-      method for burning a DVD.     again and pick  OK  next time.\n\
+         GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
+         GROW_KNOPPIX/ROOT/DESKTOP to be copied to your desktop each boot.\n
+         GROW_KNOPPIX/ROOT to be copied to the ROOT of you CD/DVD\n\
+         (Links to add content from hard dirives may be added later.)\n\n\
+      OK     I am happy with           Cancel\n\
+      the content in                   You may hit cancel and add\n\
+      ~/GROW_KNOPPIX.                  content and edit files in\n\
+      Hit OK to specify your           ~/GROW_KNOPPIX. Then run this\n\
+      method to make a new disk.       again and pick  OK  next time.\n\
 "   35 85 $KNOPPIX_PATH  2>> /var/tmp/KNOPPIX_PATH
 EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
@@ -185,6 +189,7 @@ mkdir /home/knoppix/GROW_KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 ####need to make   cdrom a varable $KNOPPIX_PATH
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
 cp -uRf /mnt/cdrom/boot /home/knoppix/GROW_KNOPPIX/ROOT/
@@ -206,7 +211,7 @@ BURN DVD:  Make sure your DVD burner device is set below.\n\
 For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
 For help you can see your devices by entering: cat /etc/fstab.\n\
 Leave the Burn Speed set to zero to avoid getting the error message:\n\
-unable to change burn speed\n\n\
+--unable to change burn speed--\n\n\
                             -or-\n\n\
 MAKE IOS:  Enter     iso   in the first line.\n\
 Enter a path to a directory and name you ios in the second line.\n\
@@ -246,7 +251,8 @@ The first directory created previously should \
 include the file:   index.html\n\n\
 Note:  The directory ROOT is not created on the DVD -- \n\
 only it's contents is added together with others to the DVD root.\n\n\
-Because of this, do not use files or directories of the same name.\n\n\
+Because of this, do not use files or directories of the same name.\n\
+You may need to make a ContainerDirectory to hold a directory to be placed.\n 
 Include the final slash: for example   /mnt/hda1/ROOT/\n\n\
 Enter paths for 2, 3, and 4 or leave blank if not needed.\n\n\
           Click  OK  to Continue.         Click  Cancel to EXIT\
@@ -271,13 +277,14 @@ fi
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 You may now save your desktop configuration if you wish.\n\
-If you do this, on boot your desktop changes with be restored.\n\n\
+If you do this, on boot your desktop changes with be restored.\n\
+You may also have GROW_KNOPPIX/HOME and GROW_KNOPPIX/DESKTOP copied.\n\n\
 This will place configs.tbz and knoppix.sh on the root of your new DVD.\n\
-Limitation:    Once you have a DVD with these configuration files you\n\
+Limitations:    Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD.\n\n\
 configs.tbz and knoppix.sh are created at /var/temp/GK_KNOPPIX/KNOPPIX/\n\
-Advanced users my edit them before thery are bruned to the DVD root.\n\n\
+Advanced users may edit knoppix.sh before it is bruned to you new disk.\n\n\
             OK     I have checked:             Cancel   Exit now.\n\
             YES for a new configs.tbz          You may make the  \n\
             and knoppix.sh to be added.        desired desktop changes\n\
@@ -321,12 +328,13 @@ rm GK_SAVE2
 
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-In addition to configuration files, you may have some files  placed in\n\
-/home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
-These will appear in the /home/knoppix directory after each boot.\n\n\
+In addition to configuration files, you may have some files placed in\n\
+   /home/knoppix/GROW_KNOPPIX/ROOT/HOME  and  /GROW_KNOPPIX/DESKTOP\n\
+   to place file in /home/knoppix  and /home/knoppix/Desktop after each boot.\n\n\
 Caution: This recopies the same files at each boot and may interfear with\n\
 the persistent home method of restoring files to /home/knoppix.\n\
-For most purposes use the persistent home method.\n\n\
+This will write over any file of the same name.\n\
+For most purposes, use the persistent home method.\n\n\
             OK     I have checked:             Cancel   Exit now.\n\n\
             YES so that my files will          You may make the  \n\
             be copied to HOME on boot.         desired desktop changes\n\n\
@@ -346,12 +354,12 @@ fi
 if [ $GK_HOME -eq 1 ] ; then \
 sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
 sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
-
 #sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 #sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
-
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo -n "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo -n "cp -R ./ /home/knoppix/Desktop" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
 
 
