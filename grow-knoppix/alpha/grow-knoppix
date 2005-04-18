@@ -1,37 +1,13 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.32 2005/04/18 03:30:32 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.33 2005/04/18 08:15:52 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.33  2005/04/18 08:15:52  paradocs
+# corrected spelling, added to summary infomation menu
+#
 # Revision 1.32  2005/04/18 03:30:32  paradocs
 # Corrected: need to save DESKTOP before allowing DESKTOP and HOME to work.
-#
-# Revision 1.31  2005/04/18 02:27:32  paradocs
-# Moved setup of BORW_KNOPPIX directories
-#
-# Revision 1.30  2005/04/18 01:26:47  paradocs
-# moved the request for DVD drive or ios one ahead
-#
-# Revision 1.29  2005/04/18 01:13:22  paradocs
-# added GROW_KNOPPIX/DESKTOP adding method
-#
-# Revision 1.28  2005/04/16 08:26:15  paradocs
-# added mkisofs option, problem with flag -P 'publisher1'
-#
-# Revision 1.27  2005/04/16 05:32:10  paradocs
-# Changed parcing of dvd burner and speed and iso and /path/my.iso
-#
-# Revision 1.26  2005/04/15 08:54:36  paradocs
-# Further editing of menues
-#
-# Revision 1.25  2005/04/14 10:24:50  paradocs
-# More editing of the menues to make it clearer.
-#
-# Revision 1.24  2005/04/14 07:43:25  paradocs
-# Editing the help menues
-#
-# Revision 1.23  2005/04/14 06:42:02  paradocs
-# Add headders for CVS    Reverted to version released on the web site
 #
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
@@ -102,10 +78,10 @@ ARCHIVE:  Archivists worry that electronic materials will quickly\n\
           content, KNOPPIX can be a standard for extending the live\n\
           of electronic content.\n\
 SYSTEM:   The system required is a boot-able CD/DVD reader, DVD writer,\n\
-          and a recomended 512MB memory.  No hard drive in required\n\
+          and a recommended 512MB memory.  No hard drive in required\n\
           but one is needed for copying large content to the DVD.\n\
-SPEED:    Since data must be read in fast enought to supply the burner\n\
-          sufficently fast drives, processor, and memory is needed.\n\
+SPEED:    Since data must be read in fast enough to supply the burner\n\
+          sufficiently fast drives, processor, and memory is needed.\n\
 CONTENT:  Content may be place on the root of the DVD, copied into\n\
           /home/knoppix/  directory and as of 3.8.1 UNIONFS allows\n\
           adding new programs and configuration files to liunx root.\n\
@@ -127,14 +103,16 @@ SPECIAL:  Customizing scripts can be run from knoppix.sh to make menus\n\
 " 40 85
 
 Xdialog --title "GROW_KNOPPIX " --msg "\
-    Steps to create a DVD:\n\
-1)  Boot from the KNOPPIX or KANOTIX CD. Get grow-knoppix and run it.\n\
-2)  Select the KNOPPIX or KANOTIX type of boot version.\n\
-3)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
-4)  Creates at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
-    Copys boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
-    Copys /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
-5)  Pick to make an .ios file to burn later or burn directly to a DVD.\n\
+    Summary of steps to create new DVD CD or iso :\n\
+1)  Boot from the KNOPPIX or KANOTIX CD and leave it in the drive.\n\
+2)  Download grow-knoppix to /home/knoppix , make it executable, and run it.\n\
+3)  Select the KNOPPIX or KANOTIX type of boot version.\n\
+4)  Choose to make an .ios file to burn later or burn directly to a DVD.\n\
+5)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
+5)  Creates at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
+    Copies boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+    Copies /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
+6)  Add your content.    
                              Hit OK to EXIT\
 " 40 85
 
@@ -225,7 +203,7 @@ EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
 rm /var/tmp/KNOPPIX_PATH
 
-####need to make   cdrom a varable $KNOPPIX_PATH
+####need to make   cdrom a variable $KNOPPIX_PATH
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
 cp -uRf /mnt/cdrom/boot /home/knoppix/GROW_KNOPPIX/ROOT/
 cp -u /mnt/cdrom/index.html /home/knoppix/GROW_KNOPPIX/ROOT/index.html
@@ -274,7 +252,7 @@ EXIT_CODE=$?
 ## change    ///   to    / / 
 ## match anchored at end:   / and any number of (space or /)
 ##     and replace with a /" 
-## then elimanate all space and / at the end except the last /
+## then eliminate all space and / at the end except the last /
 sed -e 's/\/\/\//\/ \//'g -e 's/\/[ /]*$/\/"/' \
 /var/tmp/DVD_ROOT > /var/tmp/DVD_ROOT_PATHS
 
@@ -351,7 +329,7 @@ For most purposes, use the persistent home method.\n\n\
                          or                              and\n\n\
             NO   I do not want additional      return later.\n\
             files copied into HOME.\n\
-" 35 85 10 "GK_HOME=0" "NO, do not copy additionwal files to HOME on boot." "on" "GK_HOME=1" "YES copy file to /home/knoppix on boot." "off" \
+" 35 85 10 "GK_HOME=0" "NO, do not copy additional files to HOME on boot." "on" "GK_HOME=1" "YES copy file to /home/knoppix on boot." "off" \
 2> /var/tmp/GK_HOME
 EXIT_CODE=$?
 
