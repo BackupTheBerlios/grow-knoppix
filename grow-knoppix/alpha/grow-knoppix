@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.29 2005/04/18 01:13:22 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.30 2005/04/18 01:26:47 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.30  2005/04/18 01:26:47  paradocs
+# moved the request for DVD drive or ios one ahead
+#
 # Revision 1.29  2005/04/18 01:13:22  paradocs
 # added GROW_KNOPPIX/DESKTOP adding method
 #
@@ -157,6 +160,31 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 ########
 
+#set a variable with the DVD write device
+echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
+
+Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
+BURN DVD:  Make sure your DVD burner device is set below.\n\
+For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
+For help you can see your devices by entering: cat /etc/fstab.\n\
+Leave the Burn Speed set to zero to avoid getting the error message:\n\
+--unable to change burn speed--\n\n\
+                            -or-\n\n\
+MAKE IOS:  Enter     iso   in the first line.\n\
+Enter a path to a directory and name you ios in the second line.\n\
+For example:  iso\n\
+              /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
+                          to proceed hit \n\n\n\n\n\n\
+                 OK               or            Cancel\
+" 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
+$DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ] ; then \
+exit
+fi
+
+
+
 
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
@@ -203,28 +231,6 @@ if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
 
-#set a variable with the DVD write device
-echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
-
-Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
-BURN DVD:  Make sure your DVD burner device is set below.\n\
-For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
-For help you can see your devices by entering: cat /etc/fstab.\n\
-Leave the Burn Speed set to zero to avoid getting the error message:\n\
---unable to change burn speed--\n\n\
-                            -or-\n\n\
-MAKE IOS:  Enter     iso   in the first line.\n\
-Enter a path to a directory and name you ios in the second line.\n\
-For example:  iso\n\
-              /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
-                          to proceed hit \n\n\n\n\n\n\
-                 OK               or            Cancel\
-" 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
-$DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ] ; then \
-exit
-fi
 
 echo -n "\"" >> /var/tmp/GK_DVD_DEV        #End quote for variable in file
 . /var/tmp/GK_DVD_DEV      #Source: run the file, set variable
