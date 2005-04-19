@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.35 2005/04/19 04:19:38 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.36 2005/04/19 06:48:47 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.36  2005/04/19 06:48:47  paradocs
+# Extra screen to pick   iso  or  DVD
+#
 # Revision 1.35  2005/04/19 04:19:38  paradocs
 # corrected copy from DESKTOP
 #
@@ -19,6 +22,7 @@
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 BURN_SPEED="0"
+ISO_DEFAULT="/mnt/hda1/"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/mnt/cdrom"
 PUBLISHER="PUBLISHED_BY_____________VERSION______________" 
@@ -149,7 +153,30 @@ BOOT_VERSION=${BOOT_VERSION%?}
 if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 ########
+echo -n "BURN_ISO=\"" > /var/tmp/BURN_ISO
 
+Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+You burn directly to a DVD or CD \n\n\
+           or you may\n\n\n\
+Make and iso file which can be burned later.\n\n\
+Be sure to burn the ios file with proper command\n\
+such as    --make disk from image file--\n\
+for you burner software.\n\n\
+It is not correct to copy the iso file on the a data disk!\n\n\
+" 35 85 10 \
+"dvd" "Burn directly to a DVD or CD burner" "on" \
+"iso" "Make an ios file on your drive to burn later." "off" 2>> /var/tmp/BURN_ISO
+EXIT_CODE=$?
+
+echo -n "\"" >> /var/tmp/BURN_ISO  #End quote for variable in file
+. /var/tmp/BURN_ISO                #Source: run the file, set variable
+BURN_ISO=${BURN_ISO%?} 
+if [ $BURN_ISO = "iso" ] ; then DVD_BURNER=$ISO_DEFAULT ; BURN_SPEED="iso" ; fi 
+if [ $EXIT_CODE -ne 0 ] ; then exit; fi
+
+
+
+########
 #set a variable with the DVD write device
 echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
 
@@ -168,7 +195,7 @@ MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
                         /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
      to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\n\n\n\
                  OK               or            Cancel\
-" 35 85 "Burn Speed (keep 0 for default) ----or enter---- iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 /dev/cdrom2 ----or enter---- /mnt/path/name.ios" \
+" 35 85 "Burn Speed (keep 0 for default) ----or to make iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 ----or to make iso file ---- /mnt/path/name.ios" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ] ; then \
@@ -240,15 +267,15 @@ echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
 /home/knoppix/GROW_KNOPPIX/KNOPPIX/ /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
 
 Xdialog --title "GROW_KNOPPIX " --3inputsbox "\
-Content may come from up to 3 additional directories.\n\n\
-The first directory created previously should \
-include the file:   index.html\n\n\
-Note:  The directory ROOT is not created on the DVD -- \n\
+In addtiton, content may also come from up to 3 more directories.\n\n\
+The first directory created previously should include the file:   index.html\n\n\
+Note:  The directory itself is not created on the DVD -- \n\
 only it's contents is added together with others to the DVD root.\n\n\
 Because of this, do not use files or directories of the same name.\n\
-You may need to make a ContainerDirectory to hold a directory to be placed.\n 
+You may need to make a ContainerDirectory to hold a directory or file.\n\
+Remember the entry below is a directory -- not a file.\n\n\
 Include the final slash: for example   /mnt/hda1/ROOT/\n\n\
-Enter paths for 2, 3, and 4 or leave blank if not needed.\n\n\
+
           Click  OK  to Continue.         Click  Cancel to EXIT\
 " 35 85 "1.\n/home/knoppix/GROW_KNOPPIX/ROOT/ \n2." \
 "" "3." "" "4." "" 2>> /var/tmp/DVD_ROOT
