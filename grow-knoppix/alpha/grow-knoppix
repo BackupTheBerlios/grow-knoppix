@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.33 2005/04/18 08:15:52 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.34 2005/04/19 04:10:13 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.34  2005/04/19 04:10:13  paradocs
+# fixing file from HOME and DESKTOP  -- not working  desktop blanked
+#
 # Revision 1.33  2005/04/18 08:15:52  paradocs
 # corrected spelling, added to summary infomation menu
 #
@@ -182,7 +185,7 @@ for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
                             OPTIONS:\n\
 CONTENT  You may add files and directories to:\n\
     GROW_KNOPPIX/ROOT to be copied to the root of you CD/DVD\n\
-    (For the next 2, answer YES to make a new configuration file.)\n\   
+    (For the next 2, answer YES to make a new configuration file.)\n\
     GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
     GROW_KNOPPIX/ROOT/DESKTOP to be copied to your desktop each boot.\n
     (Links to add content from hard dirives may be added later.)\n\n\
@@ -345,9 +348,9 @@ sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 #sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 #sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo -n "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo -n "cp -R ./ /home/knoppix/Desktop" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo "cp -R ./ /home/knoppix/Desktop" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
 
 
