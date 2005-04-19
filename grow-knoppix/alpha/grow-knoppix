@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.36 2005/04/19 06:48:47 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.37 2005/04/19 08:09:59 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.37  2005/04/19 08:09:59  paradocs
+# removing ability to copy file to desktop    zapping all of desktop!
+#
 # Revision 1.36  2005/04/19 06:48:47  paradocs
 # Extra screen to pick   iso  or  DVD
 #
@@ -207,7 +210,7 @@ mkdir /home/knoppix/GROW_KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
-mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
+#mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
@@ -379,8 +382,8 @@ sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 #sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo "cp -R ./ /home/knoppix/Desktop/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#echo "cp -R ./ /home/knoppix/Desktop/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
 
 
