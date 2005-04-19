@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.34 2005/04/19 04:10:13 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.35 2005/04/19 04:19:38 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.35  2005/04/19 04:19:38  paradocs
+# corrected copy from DESKTOP
+#
 # Revision 1.34  2005/04/19 04:10:13  paradocs
 # fixing file from HOME and DESKTOP  -- not working  desktop blanked
 #
@@ -350,7 +353,7 @@ sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo "cp -R ./ /home/knoppix/Desktop" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo "cp -R ./ /home/knoppix/Desktop/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
 
 
