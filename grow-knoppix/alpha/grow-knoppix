@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.38 2005/04/20 04:32:21 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.39 2005/04/20 08:46:16 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.39  2005/04/20 08:46:16  paradocs
+# Took out GROW_KNOPPIX/KNOPPIX  not created, not added to isofs
+#
 # Revision 1.38  2005/04/20 04:32:21  paradocs
 # removing direct DESKTOP restore   did not work
 #
@@ -210,10 +213,10 @@ fi
 
 # make directories and copy files if not done manually or previously
 mkdir /home/knoppix/GROW_KNOPPIX
-mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
+#mkdir /home/knoppix/GROW_KNOPPIX/KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
-#mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/KNOPPIX
 
 Xdialog --title "GROW_KNOPPIX " --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
@@ -268,8 +271,12 @@ rm /var/tmp/DVD_DEV     #Clean up
 ####tried to put knoppix.sh and configs.tbz in /KNOPPIX but failed
 ####I may need a second bind to do this.
 
+#echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
+#/home/knoppix/GROW_KNOPPIX/KNOPPIX/ /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
+
 echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
-/home/knoppix/GROW_KNOPPIX/KNOPPIX/ /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
+/var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
+
 
 Xdialog --title "GROW_KNOPPIX " --3inputsbox "\
 In addtiton, content may also come from up to 3 more directories.\n\n\
