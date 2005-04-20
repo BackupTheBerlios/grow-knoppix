@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.37 2005/04/19 08:09:59 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.38 2005/04/20 04:32:21 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.38  2005/04/20 04:32:21  paradocs
+# removing direct DESKTOP restore   did not work
+#
 # Revision 1.37  2005/04/19 08:09:59  paradocs
 # removing ability to copy file to desktop    zapping all of desktop!
 #
@@ -220,7 +223,6 @@ CONTENT  You may add files and directories to:\n\
     GROW_KNOPPIX/ROOT to be copied to the root of you CD/DVD\n\
     (For the next 2, answer YES to make a new configuration file.)\n\
     GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
-    GROW_KNOPPIX/ROOT/DESKTOP to be copied to your desktop each boot.\n
     (Links to add content from hard dirives may be added later.)\n\n\
 INDEX    The file index.html has been copied from the boot CD to the\n\
     GROW_KNOPPIX/ROOT.  You may edit index.html to describe you content.\n\
@@ -302,8 +304,8 @@ fi
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 You may now save your desktop configuration if you wish.\n\
 If you do this, on boot your desktop changes with be restored.\n\
-You may also have GROW_KNOPPIX/HOME and GROW_KNOPPIX/DESKTOP copied.\n\n\
-This will place configs.tbz and knoppix.sh on the root of your new DVD.\n\
+You may also have /home/knoppix/GROW_KNOPPIX/HOME contents copied.\n\n\
+This will place configs.tbz and knoppix.sh in KNOPPIX on your new DVD.\n\
 Limitations:    Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD.\n\n\
@@ -353,8 +355,8 @@ rm GK_SAVE2
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 In addition to configuration files, you may have some files placed in\n\
-   /home/knoppix/GROW_KNOPPIX/ROOT/HOME  and  /GROW_KNOPPIX/DESKTOP\n\
-   to place file in /home/knoppix  and /home/knoppix/Desktop after each boot.\n\n\
+   /home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
+   to be placed in /home/knoppix at each boot.\n\n\
 Caution: This recopies the same files at each boot and may interfear with\n\
 the persistent home method of restoring files to /home/knoppix.\n\
 This will write over any file of the same name.\n\
