@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.39 2005/04/20 08:46:16 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.40 2005/04/21 04:27:53 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.40  2005/04/21 04:27:53  paradocs
+# dcop desktop added
+#
 # Revision 1.39  2005/04/20 08:46:16  paradocs
 # Took out GROW_KNOPPIX/KNOPPIX  not created, not added to isofs
 #
@@ -391,6 +394,7 @@ sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 #sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+echo "dcop kdesktop KBackgroundIface setWallpaper /cdrom/background.jpg" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 #echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 #echo "cp -R ./ /home/knoppix/Desktop/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
