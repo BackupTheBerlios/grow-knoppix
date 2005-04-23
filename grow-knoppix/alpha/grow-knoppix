@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.42 2005/04/22 10:04:17 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.43 2005/04/23 07:37:50 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.43  2005/04/23 07:37:50  paradocs
+# wallpaper autostart work
+#
 # Revision 1.42  2005/04/22 10:04:17  paradocs
 # Added xdialog to set Image and Mode for Wallpaper
 #
@@ -317,6 +320,34 @@ rm /var/tmp/DVD_ROOT_PATHS
 if [ $EXIT_CODE -ne 0 ] ; then exit
 fi
 
+
+########
+#set a variable with the DVD write device
+WALLPAPER_MODE="4"
+WALLPAPER_IMAGE="/"
+echo -n "GK_WALLPAPER=\"" > /var/tmp/GK_WALLPAPER
+Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
+                      WALLPAPER BACKGROUND\n\\n\
+Leave unchanged and hit YES to keep the same background wallpaper.\n\n\
+
+Enter a number in the first field to position and size the picture.\n\
+    1 Centered   2 Tiled   3 Center Tiled   4 Centered Maxpect\n\
+    5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
+Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\
+To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
+Try different Picture and Position settings.\n\n\n\n\
+                 OK               or            Cancel\
+" 35 85 "Position and Size mode -- Enter a number bewteen 1 and 8 " $WALLPAPER_MODE \
+"/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
+$WALLPAPER_IMAGE 2>> /var/tmp/GK_WALLPAPER
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ] ; then \
+exit
+fi
+
+
+
+
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 To:  Copy files from GROW_KNOPPIX/ROOT/HOME/ each boot.\n\
      Make a new desktop backround wallpaper.\n\
@@ -357,8 +388,30 @@ awk '/^PARTITIONS=/ {print "PARTITIONS=\"/var/tmp/GK_KNOPPIX/KNOPPIX [/var/tmp/G
 
 awk '/^mount/ {print "#"} !/^mount/ {print}' /var/tmp/GK_SAVE2 > /var/tmp/GK_SAVE1
 
-#############################
 exec /var/tmp/GK_SAVE1 &
+
+#### background
+echo -n "\"" >> /var/tmp/GK_WALLPAPER      #End quote for variable in file
+. /var/tmp/GK_WALLPAPER                    #Source: run the file, set variable
+GK_DVD_DEV=${GK_WALLPAPER%?}    #Glob strip of one character form the end
+WALLPAPER_FILE=${GK_WALLPAPER#*/}
+WALLPAPER_MODE=${GK_WALLPAPER%%/*}
+echo $WALLPAPER_FILE
+echo $WALLPAPER_MODE
+if [ $WALLPAPER_FILE != "/" ] ; then \  
+cat > "/home/knoppix/.kde/Autostart/wallpaper" << EOT
+[Desktop Entry]
+Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/background.jpg 1
+Icon=background
+Name=Wallpaper
+Name[en_US]=Wallpaper
+Type=Application
+EOT
+fi
+
+
+
+
 
 Xdialog --title "GROW_KNOPPIX " --msg "\
 WAIT  !!!\n\nClick   OK\n\
@@ -405,32 +458,6 @@ echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 #echo "cd /cdrom/DESKTOP" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 #echo "cp -R ./ /home/knoppix/Desktop/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
-
-########
-#set a variable with the DVD write device
-WALLPAPER_MODE="4"
-WALLPAPER_IMAGE="/"
-echo -n "GK_WALLPAPER=\"" > /var/tmp/GK_WALLPAPER
-Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
-Leave unchanged and hit YES to keep the same background wallpaper.\n\n\
-
-Enter a number in the first field to position and size the picture.\n\
-    1 Centered   2 Tiled   3 Center Tiled   4 Centered Maxpect\n\
-    5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
-Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\n\n\
-To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
-Try different Picture and Position settings.\n\n\n\n\
-                 OK               or            Cancel\
-" 35 85 "Position and Size mode -- Enter a number bewteen 1 and 8 " $WALLPAPER_MODE \
-"/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
-$WALLPAPER_IMAGE 2>> /var/tmp/GK_DVD_DEV
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ] ; then \
-exit
-fi
-
-
-
 
 fi
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
