@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.45 2005/04/24 01:41:51 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.46 2005/04/24 01:53:03 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.46  2005/04/24 01:53:03  paradocs
+# corrected menu
+#
 # Revision 1.45  2005/04/24 01:41:51  paradocs
 # menu edit
 #
@@ -342,8 +345,7 @@ Enter a number in the first field to position and size the picture.\n\
 Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\
 To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
 Try different Picture and Position settings.\n\
-This will make a file /home/knoppix/.kde/Autostart/wallpaper\nn\n\n\
-
+This will make a file /home/knoppix/.kde/Autostart/wallpaper\n\n\n\n\
                  OK               or            Cancel\
 " 35 85 "Position and Size Mode -- Enter a mode number bewteen 1 and 8 " $WALLPAPER_MODE \
 "/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
