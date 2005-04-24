@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.44 2005/04/23 08:38:30 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.45 2005/04/24 01:41:51 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.45  2005/04/24 01:41:51  paradocs
+# menu edit
+#
 # Revision 1.44  2005/04/23 08:38:30  paradocs
 # success  WALLPAPER  change placed in startup .kde/Autostart  ? best place ?
 #
@@ -180,8 +183,8 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 echo -n "BURN_ISO=\"" > /var/tmp/BURN_ISO
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-You burn directly to a DVD or CD \n\n\
-           or you may\n\n\n\
+Burn directly to a DVD or CD \n\n\
+--or--\n\n\n\
 Make and iso file which can be burned later.\n\n\
 Be sure to burn the ios file with proper command\n\
 such as    --make disk from image file--\n\
@@ -338,9 +341,11 @@ Enter a number in the first field to position and size the picture.\n\
     5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
 Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\
 To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
-Try different Picture and Position settings.\n\n\n\n\
+Try different Picture and Position settings.\n\
+This will make a file /home/knoppix/.kde/Autostart/wallpaper\nn\n\n\
+
                  OK               or            Cancel\
-" 35 85 "Position and Size mode -- Enter a number bewteen 1 and 8 " $WALLPAPER_MODE \
+" 35 85 "Position and Size Mode -- Enter a mode number bewteen 1 and 8 " $WALLPAPER_MODE \
 "/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
 $WALLPAPER_IMAGE 2>> /var/tmp/GK_WALLPAPER
 EXIT_CODE=$?
