@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.46 2005/04/24 01:53:03 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.47 2005/04/25 09:52:41 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.47  2005/04/25 09:52:41  paradocs
+# moved publisher ID forward one dialog.
+#
 # Revision 1.46  2005/04/24 01:53:03  paradocs
 # corrected menu
 #
@@ -52,7 +55,7 @@
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 BURN_SPEED="0"
-ISO_DEFAULT="/mnt/hda1/"
+ISO_DEFAULT="/mnt/hda6/my.iso"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/mnt/cdrom"
 PUBLISHER="PUBLISHED_BY_____________VERSION______________" 
@@ -471,8 +474,8 @@ fi
 # use one string --  no spaces  VERSION 16 characters,  P and  p up to 128 
 #  hwclock | sed 's/ /_/g' | sed 's/............seconds/_|_/' > /var/tmp/GK_PUBLISHER2
 # uname -snrv | sed 's/ /_/g' >> /var/tmp/GK_PUBLISHER2
-
-Xdialog --title "GROW_KNOPPIX " --yesno "\
+echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
+Xdialog --title "GROW_KNOPPIX " --inputbox "\
                           FINAL CHECK\n\n\
 Clone directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
 -->$KNOPPIX_PATH\n\n\
@@ -484,12 +487,19 @@ You are bringing together content from:\n\
 -->$DVD_ROOT\n\n\
 Your boot type is:\n\
 -->$BOOT_VERSION\n\n\
-YES: To dry-run test -- if have a blank DVD in the drive.\n\
-YES: To make ios file -- if burnspeed=iso and /path/name.iso is valid.\n\n\
-YES to do a dry-run               NO to skip the dry-run.\n\
-    or make iso file                                     \
-" 35 85
+                OK                                 CANCEL\n\
+Make the iso file. Overwrites old file. -or-       to skip the dry-run.\n\
+Do a dry-run test with Blank DVD in drive.\n\n\
+Optional DVD header (up to 128 char, no spaces, no special characters)\n\
+notice may identify the publisher and his rights.\n\
+" 35 85 $PUBLISHER 2>> /var/tmp/GK_PUBLISHER
 EXIT_CODE=$?
+echo -n "\"" >> /var/tmp/GK_PUBLISHER
+. /var/tmp/GK_PUBLISHER
+PUBLISHER=${DVD_DEV%?}
+rm /var/tmp/GK_PUBLISHER
+
+
 
 if [ $EXIT_CODE -ne 1 ] ; then \
 
@@ -519,7 +529,7 @@ echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 fi
 
 echo -n "-pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -p 'PUBLISHER1' -p 'PUBLISHER2' " >> /var/tmp/GK_BURN
+echo -n "-V 'grow_knoppix1234' -P 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
@@ -544,11 +554,18 @@ sudo umount /var/tmp/BindCD/KNOPPIX
 #####END REPEATED CODE 
 fi
 
-echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
+if [ $BURN_SPEED = "iso" ]; then
+exit
+fi    
 
-Xdialog --title "GROW_KNOPPIX " --inputbox "\
-When the test has finished look at the results.\n\
-If it says:       Writing:         then the test was good.\n\
+
+#echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
+
+#Xdialog --title "GROW_KNOPPIX " --inputbox "\
+
+Xdialog --title "GROW_KNOPPIX " --yesno "\
+If you did a dry run, look at the results.\n\
+If it says:       Writing:         the test may have been good.\n\
 Close the results box.  Then you may click YES to burn the DVD.\n\n\
 Here are your settings:\n\n\
 Your directory  KNOPPIX  with the file  KNOPPIX  is at -->\n\
@@ -557,17 +574,10 @@ Your burner is at -->\n\
 $DVD_DEV\n\
 You are bringing together content from -->\n\
 $DVD_ROOT\n\n\n\n\n\
-             Click  OK  to                     Click   Cancel  to\n\
+             Click  YES  to                     Click   NO  to\n\
              BURN NOW!                        exit.\n\n\n\n\n\
-Optional identification up to 128 char. Do not use special characters.\n\
-This notice may identify the publisher and his rights to added content\n\
-It will be placed in the DVD header.\n\
-" 35 85 $PUBLISHER 2>> /var/tmp/GK_PUBLISHER
+" 35 85
 EXIT_CODE=$?
-echo -n "\"" >> /var/tmp/GK_PUBLISHER
-. /var/tmp/GK_PUBLISHER
-PUBLISHER=${DVD_DEV%?}
-rm /var/tmp/GK_PUBLISHER
 
 if [ $EXIT_CODE -ne 0 ] ; then
 exit
@@ -593,7 +603,7 @@ if [ $BURN_SPEED != "0" ]; then
 fi
 echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 echo -n " -pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -P 'PUBLISHER1' -p 'PUBLISHER2' " >> /var/tmp/GK_BURN
+echo -n "-V 'grow_knoppix1234' -P 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
