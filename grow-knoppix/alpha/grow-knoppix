@@ -1,65 +1,19 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.50 2005/04/26 03:25:01 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.51 2005/04/26 04:13:28 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.51  2005/04/26 04:13:28  paradocs
+# added to menu clearity   edit path to iso
+#
 # Revision 1.50  2005/04/26 03:25:01  paradocs
 # change   mispellings    ios  -->   iso
 #
 # Revision 1.49  2005/04/26 03:02:44  paradocs
 # Changed sample partition to burn iso to     /dev/hda-/my.iso    safer
 #
-# Revision 1.48  2005/04/26 02:56:46  paradocs
-# Corrected the exit message for the dry-run
-#
-# Revision 1.47  2005/04/25 09:52:41  paradocs
-# moved publisher ID forward one dialog.
-#
-# Revision 1.46  2005/04/24 01:53:03  paradocs
-# corrected menu
-#
-# Revision 1.45  2005/04/24 01:41:51  paradocs
-# menu edit
-#
-# Revision 1.44  2005/04/23 08:38:30  paradocs
-# success  WALLPAPER  change placed in startup .kde/Autostart  ? best place ?
-#
-# Revision 1.43  2005/04/23 07:37:50  paradocs
-# wallpaper autostart work
-#
-# Revision 1.42  2005/04/22 10:04:17  paradocs
-# Added xdialog to set Image and Mode for Wallpaper
-#
-# Revision 1.41  2005/04/21 05:39:17  paradocs
-# add paramenter for dcop kdesktop
-#
-# Revision 1.40  2005/04/21 04:27:53  paradocs
-# dcop desktop added
-#
-# Revision 1.39  2005/04/20 08:46:16  paradocs
-# Took out GROW_KNOPPIX/KNOPPIX  not created, not added to isofs
-#
-# Revision 1.38  2005/04/20 04:32:21  paradocs
-# removing direct DESKTOP restore   did not work
-#
-# Revision 1.37  2005/04/19 08:09:59  paradocs
-# removing ability to copy file to desktop    zapping all of desktop!
-#
 # Revision 1.36  2005/04/19 06:48:47  paradocs
 # Extra screen to pick   iso  or  DVD
-#
-# Revision 1.35  2005/04/19 04:19:38  paradocs
-# corrected copy from DESKTOP
-#
-# Revision 1.34  2005/04/19 04:10:13  paradocs
-# fixing file from HOME and DESKTOP  -- not working  desktop blanked
-#
-# Revision 1.33  2005/04/18 08:15:52  paradocs
-# corrected spelling, added to summary infomation menu
-#
-# Revision 1.32  2005/04/18 03:30:32  paradocs
-# Corrected: need to save DESKTOP before allowing DESKTOP and HOME to work.
-#
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
@@ -237,7 +191,7 @@ MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
                         /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
      to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\n\n\n\
                  OK               or            Cancel\
-" 35 85 "Burn Speed (keep 0 for default) ----or to make iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 ----or to make iso file ---- /mnt/path/name.iso" \
+" 35 85 "Burn Speed -keep 0 for default --- or for iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 --- or for iso file --- edit /mnt/path/name.iso" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ] ; then \
@@ -532,7 +486,7 @@ echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 fi
 
 echo -n "-pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -P 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
+echo -n "-V 'grow_knoppix1234' -publisher 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
@@ -548,7 +502,7 @@ echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 
 #  echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
 echo -n "; echo "Complete  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
-#echo -n "; echo "CONGRATUALTIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
+#echo -n "; echo "CONGRATULATIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
 sudo xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
 sudo umount /var/tmp/BindCD/KNOPPIX
@@ -601,7 +555,7 @@ if [ $BURN_SPEED != "0" ]; then
 fi
 echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 echo -n " -pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -P 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
+echo -n "-V 'grow_knoppix1234' -publisher 'publisher_id' -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
@@ -617,7 +571,7 @@ echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 
 echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
 #echo -n "; echo "dry-run OK if is says - - - Writing:  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
-echo -n "; echo "CONGRATUALTIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
+echo -n "; echo "CONGRATULATIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
 xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
  sudo umount /var/tmp/BindCD/KNOPPIX
@@ -625,6 +579,6 @@ xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BUR
  rm /var/tmp/GK_BURN
 #####END REPEATED CODE
 
-echo -n "; echo "CONGRATUALTIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
+echo -n "; echo "CONGRATULATIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 ######END REPEAT
 ### Xdialog --title "DVD BURN LOG " --logbox /var/tmp/GK_BURN 35 85
