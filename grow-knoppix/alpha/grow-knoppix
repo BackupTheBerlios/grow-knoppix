@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.52 2005/04/26 06:01:56 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.53 2005/04/26 06:53:27 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.53  2005/04/26 06:53:27  paradocs
+# corrected getting file name of the background image
+#
 # Revision 1.52  2005/04/26 06:01:56  paradocs
 # Wallpaper was not pointing to the root of the  iso/cd  corrected
 #
@@ -375,7 +378,7 @@ WALLPAPER_MODE=${GK_WALLPAPER%%/*}
 
 if [ $WALLPAPER_FILE != "/" ] ; then \  
 cp $WALLPAPER_FILE /home/knoppix/GROW_KNOPPIX/ROOT
-WALLPAPER=${WALLPAPER_FILE%##*/}
+WALLPAPER=${WALLPAPER_FILE##*/}
 cat > "/home/knoppix/.kde/Autostart/wallpaper" << EOT
 [Desktop Entry]
 Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/$WALLPAPER $WALLPAPER_MODE
