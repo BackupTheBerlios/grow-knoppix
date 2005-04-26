@@ -1,10 +1,13 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.49 2005/04/26 03:02:44 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.50 2005/04/26 03:25:01 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.50  2005/04/26 03:25:01  paradocs
+# change   mispellings    ios  -->   iso
+#
 # Revision 1.49  2005/04/26 03:02:44  paradocs
-# Changed sample partition to burn iso to     /dev/hda-/my.ios    safer
+# Changed sample partition to burn iso to     /dev/hda-/my.iso    safer
 #
 # Revision 1.48  2005/04/26 02:56:46  paradocs
 # Corrected the exit message for the dry-run
@@ -156,7 +159,7 @@ Xdialog --title "GROW_KNOPPIX " --msg "\
 1)  Boot from the KNOPPIX or KANOTIX CD and leave it in the drive.\n\
 2)  Download grow-knoppix to /home/knoppix , make it executable, and run it.\n\
 3)  Select the KNOPPIX or KANOTIX type of boot version.\n\
-4)  Choose to make an .ios file to burn later or burn directly to a DVD.\n\
+4)  Choose to make an .iso file to burn later or burn directly to a DVD.\n\
 5)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
 5)  Creates at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
     Copies boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
@@ -198,13 +201,13 @@ Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Burn directly to a DVD or CD \n\n\
 --or--\n\n\n\
 Make and iso file which can be burned later.\n\n\
-Be sure to burn the ios file with proper command\n\
+Be sure to burn the iso file with proper command\n\
 such as    --make disk from image file--\n\
 for you burner software.\n\n\
 It is not correct to copy the iso file on the a data disk!\n\n\
 " 35 85 10 \
 "dvd" "Burn directly to a DVD or CD burner" "on" \
-"iso" "Make an ios file on your drive to burn later." "off" 2>> /var/tmp/BURN_ISO
+"iso" "Make an iso file on your drive to burn later." "off" 2>> /var/tmp/BURN_ISO
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/BURN_ISO  #End quote for variable in file
@@ -229,12 +232,12 @@ BURN DVD:  Make sure your DVD burner device is set below.\n\
 MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
           The above means the iso file is not simply copied onto a disk.\n\
     Enter     iso   in the first line.\n\
-    Enter a path to a directory and name you ios in the second line.\n\
+    Enter a path to a directory and name you iso in the second line.\n\
           For example:  iso\n\
                         /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
      to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\n\n\n\
                  OK               or            Cancel\
-" 35 85 "Burn Speed (keep 0 for default) ----or to make iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 ----or to make iso file ---- /mnt/path/name.ios" \
+" 35 85 "Burn Speed (keep 0 for default) ----or to make iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 ----or to make iso file ---- /mnt/path/name.iso" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ] ; then \
