@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.48 2005/04/26 02:56:46 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.49 2005/04/26 03:02:44 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.49  2005/04/26 03:02:44  paradocs
+# Changed sample partition to burn iso to     /dev/hda-/my.ios    safer
+#
 # Revision 1.48  2005/04/26 02:56:46  paradocs
 # Corrected the exit message for the dry-run
 #
@@ -58,7 +61,7 @@
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
 BURN_SPEED="0"
-ISO_DEFAULT="/mnt/hda6/my.iso"
+ISO_DEFAULT="/mnt/hda-/my.iso"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/mnt/cdrom"
 PUBLISHER="PUBLISHED_BY_____________VERSION______________" 
@@ -361,9 +364,6 @@ if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
 
-
-
-
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 To:  Copy files from GROW_KNOPPIX/ROOT/HOME/ each boot.\n\
      Make a new desktop backround wallpaper.\n\
@@ -433,7 +433,6 @@ The files will be placed the DVD root and will be detected at boot.\n\
 rm GK_SAVE1
 rm GK_SAVE2
 
-
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 In addition to configuration files, you may have some files placed in\n\
    /home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
@@ -502,8 +501,6 @@ echo -n "\"" >> /var/tmp/GK_PUBLISHER
 PUBLISHER=${DVD_DEV%?}
 rm /var/tmp/GK_PUBLISHER
 
-
-
 if [ $EXIT_CODE -ne 1 ] ; then \
 
 #######REPEATED CODE
@@ -560,11 +557,6 @@ fi
 if [ $BURN_SPEED = "iso" ]; then
 exit
 fi    
-
-
-#echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
-
-#Xdialog --title "GROW_KNOPPIX " --inputbox "\
 
 Xdialog --title "GROW_KNOPPIX " --yesno "\
 If you did a dry run, look at the results.\n\
