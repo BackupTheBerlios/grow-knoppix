@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.47 2005/04/25 09:52:41 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.48 2005/04/26 02:56:46 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.48  2005/04/26 02:56:46  paradocs
+# Corrected the exit message for the dry-run
+#
 # Revision 1.47  2005/04/25 09:52:41  paradocs
 # moved publisher ID forward one dialog.
 #
@@ -544,7 +547,7 @@ echo -n "-hide-rr-moved " >> /var/tmp/GK_BURN
 echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 
 #  echo -n "; rm /var/tmp/GK_SORT" >> /var/tmp/GK_BURN
-echo -n "; echo "dry-run OK if is says - - - Writing:  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
+echo -n "; echo "Complete  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
 #echo -n "; echo "CONGRATUALTIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
 sudo xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
