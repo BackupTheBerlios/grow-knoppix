@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.55 2005/04/27 08:37:27 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.56 2005/04/28 03:59:40 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.56  2005/04/28 03:59:40  paradocs
+# help menu chaange
+#
 # Revision 1.55  2005/04/27 08:37:27  paradocs
 # menu changes
 #
@@ -115,8 +118,8 @@ INDEX:    Modify index.html in /home/knoppix/GROW_KNOPPIX/ROOT to show\n\
 DESKTOP:  Desktop settings may be saved. K -> KNOPPIX -> Configure\n\
           -> save KNOPPIX conf.  Files knoppix.sh and configs.tbz may\n\
           be placed in /home/knoppix/GROW_KNOPPIX/ \n\
-SPECIAL:  Customizing scripts can be run from knoppix.sh to make menus\n\
-          and changes home and configuration files.\n\
+SPECIAL:  Customizing scripts can be run from knoppix.sh and from a\n\
+          start file in /home/knoppix/.kde/Autostart/\n\
                          Hit OK for more HELP\
 " 40 85
 
