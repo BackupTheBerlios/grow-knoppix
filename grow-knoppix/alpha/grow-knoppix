@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.57 2005/04/29 06:29:46 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.58 2005/04/29 06:39:24 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.58  2005/04/29 06:39:24  paradocs
+# corrected   GK_  prefix
+#
 # Revision 1.57  2005/04/29 06:29:46  paradocs
 # add GK_ prefix to all temp files in var/tmp for easier removal. Menu chnages.
 #
@@ -162,7 +165,7 @@ It is not correct to copy the iso file onto the a data disk!\n\n\
 "iso" "Make an iso file on your drive to burn later." "off" 2>> /var/tmp/GK_BURN_ISO
 EXIT_CODE=$?
 
-echo -n "\"" >> /var/tmp/BURN_ISO  #End quote for variable in file
+echo -n "\"" >> /var/tmp/GK_BURN_ISO  #End quote for variable in file
 . /var/tmp/GK_BURN_ISO                #Source: run the file, set variable
 BURN_ISO=${BURN_ISO%?} 
 if [ $BURN_ISO = "iso" ] ; then DVD_BURNER=$ISO_DEFAULT ; BURN_SPEED="iso" ; fi 
