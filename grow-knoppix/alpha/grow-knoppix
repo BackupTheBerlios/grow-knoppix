@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.56 2005/04/28 03:59:40 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.57 2005/04/29 06:29:46 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.57  2005/04/29 06:29:46  paradocs
+# add GK_ prefix to all temp files in var/tmp for easier removal. Menu chnages.
+#
 # Revision 1.56  2005/04/28 03:59:40  paradocs
 # help menu chaange
 #
@@ -11,24 +14,6 @@
 #
 # Revision 1.54  2005/04/27 02:53:36  paradocs
 # took sudo off for growisofs  will not work with sudo -- security issue
-#
-# Revision 1.53  2005/04/26 06:53:27  paradocs
-# corrected getting file name of the background image
-#
-# Revision 1.52  2005/04/26 06:01:56  paradocs
-# Wallpaper was not pointing to the root of the  iso/cd  corrected
-#
-# Revision 1.51  2005/04/26 04:13:28  paradocs
-# added to menu clearity   edit path to iso
-#
-# Revision 1.50  2005/04/26 03:25:01  paradocs
-# change   mispellings    ios  -->   iso
-#
-# Revision 1.49  2005/04/26 03:02:44  paradocs
-# Changed sample partition to burn iso to     /dev/hda-/my.iso    safer
-#
-# Revision 1.36  2005/04/19 06:48:47  paradocs
-# Extra screen to pick   iso  or  DVD
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
@@ -42,7 +27,7 @@ export XDIALOG_HIGH_DIALOG_COMPAT
 #XDIALOG_INFOBOX_TIMEOUT=1000000
 #export XDIALOG_INFOBOX_TIMEOUT
 
-echo -n "LANGUAGE=\"" > /var/tmp/LANGUAGE_CHOICE
+echo -n "LANGUAGE=\"" > /var/tmp/GK_LANGUAGE
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Publish your content in the root of a new KNOPPIX based live boot CD/DVD.\n\
@@ -56,13 +41,13 @@ und den Desktop.\n\n\
             OK. Ich habe die Bestimmungen  Cancel   Bitte lese die Hilfe\n\
             und Hilfe gelesen.             und das GNU copyright.\n\
 " 35 85 10 "en" "English" "on" "de" "Deutsch nicht jetzt" "off" \
-2>> /var/tmp/LANGUAGE_CHOICE
+2>> /var/tmp/GK_LANGUAGE
 EXIT_CODE=$?
 
-echo -n "\"" >> /var/tmp/LANGUAGE_CHOICE  #End quote for variable in file
-. /var/tmp/LANGUAGE_CHOICE                #Source: run the file, set variable
-LANGUAGE=${LANGUAGE%?}                    #Trim off unwanted tail
-####  rm /var/tmp/LANGUAGE_CHOICE
+echo -n "\"" >> /var/tmp/GK_LANGUAGE  #End quote for variable in file
+. /var/tmp/GK_LANGUAGE                #Source: run the file, set variable
+LANGUAGE=${LANGUAGE%?}                #Trim off unwanted tail
+####  rm /var/tmp/GK_LANGUAGE
 
 if [ $EXIT_CODE -ne 0 ] ; then \
 Xdialog --title "GROW_KNOPPIX " --msg "\
@@ -91,35 +76,33 @@ This is experimental software -- use it at you own risk.\n
 
 
 Xdialog --title "GROW_KNOPPIX " --msg "\
-VERSIONS: The goal it to update to work with future KNOPPIX, KANOTIX\n\
-          versions.  Remaking a DVD with the latest version is easy.\n\
+VERSIONS: The goal is to be able to easily update your work with a\n\
+          future KNOPPIX or KANOTIX version.\n\
 SKILL:    This guide is designed to require only basic computer skills.\n\
-ARCHIVE:  Archivists worry that electronic materials will quickly\n\
-          become unreadable.  By keeping an operating system with the\n\
-          content, KNOPPIX can be a standard for extending the live\n\
-          of electronic content.\n\
-SYSTEM:   The system required is a boot-able CD/DVD reader, DVD writer,\n\
-          and a recommended 512MB memory.  No hard drive in required\n\
-          but one is needed for copying large content to the DVD.\n\
-SPEED:    Since data must be read in fast enough to supply the burner\n\
+ARCHIVE:  Archivists worry that electronic materials will quickly become\n\
+          unreadable.  By keeping an operating system with the content,\n\
+          KNOPPIX can extend the useful live of electronic content.\n\
+SYSTEM:   The system required is a boot-able CD/DVD reader, DVD or CD\n\
+          burner and probably 512MB memory.  No hard drive in required.\n\
+SPEED:    Since data must be read in fast enough to supply the burner,\n\
           sufficiently fast drives, processor, and memory is needed.\n\
 CONTENT:  Content may be place on the root of the DVD, copied into\n\
-          /home/knoppix/  directory and as of 3.8.1 UNIONFS allows\n\
-          adding new programs and configuration files to liunx root.\n\
-FILES:    You must have no directories or files with the same name to\n\
-          be combined.  The container directory/s is/are not created,\n\
-          only the contents are combined in the root of the new DVD.\n\
-BOOT:     Changing boot parameters in ~/GROW_KNOPPIX/KNOPPIX/boot.img\n\
-          or in ~/GROW_KNOPPIX/ROOT/boot/isolinux/isolinux.cfg\n\
-          can allow cheat codes for intervention free booting.\n\
+          the /home/knoppix/ directory.  With UNIONFS versions it becomes\n\
+          possible to add new programs and configuration files to liunx root.\n\
+FILES:    You must have no directories or files with the same name to be\n\
+          combined.  The container directory/s is/are not created, it is\n\
+          only the contents that are combined in the root of the new DVD.\n\
+BOOT:     Changing boot parameters in ~/GROW_KNOPPIX/KNOPPIX/boot\n\
+          /isolinux/isolinux.cfg  or  /grub/meny.lst  can allow intervention\n\
+          free booting with cheat codes for language, hardware, persistent\n\
+          home, or booting from an iso on a hard drive.\n\
 INDEX:    Modify index.html in /home/knoppix/GROW_KNOPPIX/ROOT to show\n\
           your content.  Please make the original index.html pages\n\
           available to give proper credit.  Links and menus may be made.\n\
-DESKTOP:  Desktop settings may be saved. K -> KNOPPIX -> Configure\n\
-          -> save KNOPPIX conf.  Files knoppix.sh and configs.tbz may\n\
-          be placed in /home/knoppix/GROW_KNOPPIX/ \n\
-SPECIAL:  Customizing scripts can be run from knoppix.sh and from a\n\
-          start file in /home/knoppix/.kde/Autostart/\n\
+DESKTOP:  Desktop settings and a new background image may be saved by placing\n\
+          knoppix.sh and configs.tbz in /var/tmp/GK_KNOPPIX/KNOPPIX.\n\
+SPECIAL:  Customizing scripts can be started from knoppix.sh and from start\n\
+          files placed in /home/knoppix/.kde/Autostart/\n\
                          Hit OK for more HELP\
 " 40 85
 
@@ -130,10 +113,10 @@ Xdialog --title "GROW_KNOPPIX " --msg "\
 3)  Select the KNOPPIX or KANOTIX type of boot version.\n\
 4)  Choose to make an .iso file to burn later or burn directly to a DVD.\n\
 5)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
-5)  Creates at home GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
-    Copies boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
-    Copies /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
-6)  Add your content.    
+6)  Add you content in the directories created and/or modify the boot file:\n\
+       /home/knoppix/GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
+       boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+       /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
                              Hit OK to EXIT\
 " 40 85
 
@@ -141,7 +124,7 @@ exit
 fi
 
 #########
-echo -n "BOOT_VERSION=\"" > /var/tmp/BOOT_VERSION
+echo -n "BOOT_VERSION=\"" > /var/tmp/GK_BOOT_VERSION
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\n\
@@ -154,17 +137,17 @@ If these files already exist, clicking OK will not change them.\n\n\
 " 35 85 10 \
 "boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5     KNOPPIX 3.3" "off" \
 "isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4    3.8.1" "off" \
-"stage1_5" "TYPE=/boot/grub/stage2 KANOTIX BH6    2005-2" "on" 2>> /var/tmp/BOOT_VERSION
+"stage1_5" "TYPE=/boot/grub/stage2 KANOTIX BH6    2005-2" "on" 2>> /var/tmp/GK_BOOT_VERSION
 EXIT_CODE=$?
 
-echo -n "\"" >> /var/tmp/BOOT_VERSION  #End quote for variable in file
-. /var/tmp/BOOT_VERSION                #Source: run the file, set variable
+echo -n "\"" >> /var/tmp/GK_BOOT_VERSION  #End quote for variable in file
+. /var/tmp/GK_BOOT_VERSION                #Source: run the file, set variable
 BOOT_VERSION=${BOOT_VERSION%?} 
 
 if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 ########
-echo -n "BURN_ISO=\"" > /var/tmp/BURN_ISO
+echo -n "BURN_ISO=\"" > /var/tmp/GK_BURN_ISO
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 Burn directly to a DVD or CD \n\n\
@@ -176,16 +159,14 @@ for you burner software.\n\n\
 It is not correct to copy the iso file onto the a data disk!\n\n\
 " 35 85 10 \
 "dvd" "Burn directly to a DVD or CD burner" "on" \
-"iso" "Make an iso file on your drive to burn later." "off" 2>> /var/tmp/BURN_ISO
+"iso" "Make an iso file on your drive to burn later." "off" 2>> /var/tmp/GK_BURN_ISO
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/BURN_ISO  #End quote for variable in file
-. /var/tmp/BURN_ISO                #Source: run the file, set variable
+. /var/tmp/GK_BURN_ISO                #Source: run the file, set variable
 BURN_ISO=${BURN_ISO%?} 
 if [ $BURN_ISO = "iso" ] ; then DVD_BURNER=$ISO_DEFAULT ; BURN_SPEED="iso" ; fi 
 if [ $EXIT_CODE -ne 0 ] ; then exit; fi
-
-
 
 ########
 #set a variable with the DVD write device
