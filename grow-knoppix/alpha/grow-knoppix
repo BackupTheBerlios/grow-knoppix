@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.58 2005/04/29 06:39:24 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.59 2005/04/30 07:15:02 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.59  2005/04/30 07:15:02  paradocs
+# Menu changes, help for boot chnages.
+#
 # Revision 1.58  2005/04/29 06:39:24  paradocs
 # corrected   GK_  prefix
 #
@@ -95,8 +98,8 @@ CONTENT:  Content may be place on the root of the DVD, copied into\n\
 FILES:    You must have no directories or files with the same name to be\n\
           combined.  The container directory/s is/are not created, it is\n\
           only the contents that are combined in the root of the new DVD.\n\
-BOOT:     Changing boot parameters in ~/GROW_KNOPPIX/KNOPPIX/boot\n\
-          /isolinux/isolinux.cfg  or  /grub/meny.lst  can allow intervention\n\
+BOOT:     Changing boot parameters in ~/GROW_KNOPPIX/KNOPPIX/ROOT/boot\n\
+          /isolinux/isolinux.cfg  or  /grub/menu.lst  can allow intervention\n\
           free booting with cheat codes for language, hardware, persistent\n\
           home, or booting from an iso on a hard drive.\n\
 INDEX:    Modify index.html in /home/knoppix/GROW_KNOPPIX/ROOT to show\n\
@@ -118,8 +121,12 @@ Xdialog --title "GROW_KNOPPIX " --msg "\
 5)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
 6)  Add you content in the directories created and/or modify the boot file:\n\
        /home/knoppix/GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
-       boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+       boot.img  into  KNOPPIX -or- boot folder and files into ROOT.\n\
        /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
+    To edit boot files menu.lst or isolinux.cfg add cheat codes at the end\n\
+    of the first line beginning with kernel.  Ignore lines starting with #.\n\
+    You may cut and paste to move a menu line to the first position so it will\n\
+    boot without intervention.\n\
                              Hit OK to EXIT\
 " 40 85
 
