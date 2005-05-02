@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.62 2005/05/02 02:53:42 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.63 2005/05/02 02:56:41 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.63  2005/05/02 02:56:41  paradocs
+# menu chnage
+#
 # Revision 1.62  2005/05/02 02:53:42  paradocs
 # Menu changes for making an iso or CD
 #
@@ -210,7 +213,7 @@ MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
          select Actions, Change read write mode, answer YES.\n\
           For example:  iso\n\
                         /mnt/hda5/my_clone_july04.iso\n\n\n\
-     to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\
+     to proceed to set up /home/knoppix/GROW_KNOPPIX       hit \n\
                  OK               or            Cancel\
 " 35 85 "Burn Speed -keep 0 for default --- or for iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 --- or for iso file --- edit /mnt/path/name.iso" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
