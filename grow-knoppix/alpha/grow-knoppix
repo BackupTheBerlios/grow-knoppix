@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.61 2005/05/02 01:07:44 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.62 2005/05/02 02:53:42 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.62  2005/05/02 02:53:42  paradocs
+# Menu changes for making an iso or CD
+#
 # Revision 1.61  2005/05/02 01:07:44  paradocs
 # menu change -  must mount and make disk writable for the iso file.
 #
@@ -95,7 +98,8 @@ ARCHIVE:  Archivists worry that electronic materials will quickly become\n\
           unreadable.  By keeping an operating system with the content,\n\
           KNOPPIX can extend the useful live of electronic content.\n\
 SYSTEM:   The system required is a boot-able CD/DVD reader, DVD or CD\n\
-          burner and probably 512MB memory.  No hard drive in required.\n\
+          burner and probably 512MB memory.  No hard drive is required for\n\
+          a DVD but you need a writable partiton for an iso file.\n\
 SPEED:    Since data must be read in fast enough to supply the burner,\n\
           sufficiently fast drives, processor, and memory is needed.\n\
 CONTENT:  Content may be place on the root of the DVD, copied into\n\
@@ -119,13 +123,14 @@ SPECIAL:  Customizing scripts can be started from knoppix.sh and from start\n\
 " 40 85
 
 Xdialog --title "GROW_KNOPPIX " --msg "\
-    Summary of steps to create new DVD CD or iso :\n\
+    Summary of steps to create new DVD CD or iso file:\n\
 1)  Boot from the KNOPPIX or KANOTIX CD and leave it in the drive.\n\
 2)  Download grow-knoppix to /home/knoppix , make it executable, and run it.\n\
 3)  Select the KNOPPIX or KANOTIX type of boot version.\n\
 4)  Choose to make an .iso file to burn later or burn directly to a DVD.\n\
-5)  Set the path to point to the KNOPPIX/KNOPPIX folder on your CD.\n\
-6)  Add you content in the directories created and/or modify the boot file:\n\
+5)  Check the path to your burner or a mounted writable path for on iso file.\n\
+6)  Check the path to the live CD, it is by default /mnt/cdrom  \n\
+7)  Add you content in the directories created and/or modify the boot file:\n\
        /home/knoppix/GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
        boot.img  into  KNOPPIX -or- boot folder and files into ROOT.\n\
        /mnt/cdrom/index.html        into your ROOT    subdirectory.\n\
@@ -143,7 +148,8 @@ fi
 echo -n "BOOT_VERSION=\"" > /var/tmp/GK_BOOT_VERSION
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\n\
+You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\
+    Do not try to use a cloned CD DVD made grow-knoppix.\n\
 1)  Select the boot method for your version of knoppix or kanotix.\n\
 2)  Click on OK to setup at home:\n\
        GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
@@ -198,12 +204,12 @@ BURN DVD:  Make sure your DVD burner device is set below.\n\
 MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
           Note: The iso file is not simply copied onto a disk.\n\
     Leave the word     iso      in the first line.\n\
-    Enter a path to a directory and name you iso in the second line.\n\
-    To mount the disk partition, click the icon, then close it.\n\
-    The disk partition must be made writable. Right click the icon,\n\
+    Enter a path and name for your iso file on the second line.\n\
+    Mount the disk partition, click the icon, then close it.\n\
+    Make the disk partition writable. Right click the icon,\n\
          select Actions, Change read write mode, answer YES.\n\
           For example:  iso\n\
-                        /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
+                        /mnt/hda5/my_clone_july04.iso\n\n\n\
      to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\
                  OK               or            Cancel\
 " 35 85 "Burn Speed -keep 0 for default --- or for iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 --- or for iso file --- edit /mnt/path/name.iso" \
