@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.59 2005/04/30 07:15:02 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.60 2005/05/02 00:25:01 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.60  2005/05/02 00:25:01  paradocs
+# use sudo xterm for iso option,  cannot use sudo for growisofs due to security
+#
 # Revision 1.59  2005/04/30 07:15:02  paradocs
 # Menu changes, help for boot chnages.
 #
@@ -505,7 +508,14 @@ echo -n $DVD_ROOT  >> /var/tmp/GK_BURN
 echo -n "; echo "Complete  - - -  CLICK X TO PROCEED" " >> /var/tmp/GK_BURN
 #echo -n "; echo "CONGRATULATIONS. -----> CLICK X to EXIT" " >> /var/tmp/GK_BURN
 sudo chmod a+x /var/tmp/GK_BURN
+
+if [ $BURN_SPEED = "iso" ]; then
+sudo xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
+else
 xterm -hold -T "GROW-KNOPPIX" -bg black -fg green -cr red -ls -e /var/tmp/GK_BURN
+fi
+
+
 sudo umount /var/tmp/BindCD/KNOPPIX
  rm -R -f /var/tmp/BindCD
  rm /var/tmp/GK_BURN
