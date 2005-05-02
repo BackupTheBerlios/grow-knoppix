@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.60 2005/05/02 00:25:01 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.61 2005/05/02 01:07:44 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.61  2005/05/02 01:07:44  paradocs
+# menu change -  must mount and make disk writable for the iso file.
+#
 # Revision 1.60  2005/05/02 00:25:01  paradocs
 # use sudo xterm for iso option,  cannot use sudo for growisofs due to security
 #
@@ -193,12 +196,15 @@ BURN DVD:  Make sure your DVD burner device is set below.\n\
     --unable to change burn speed--\n\n\
                             -or-\n\n\
 MAKE IOS: Later make a CD or DVD by using disk from image software.\n\
-          The above means the iso file is not simply copied onto a disk.\n\
-    Enter     iso   in the first line.\n\
+          Note: The iso file is not simply copied onto a disk.\n\
+    Leave the word     iso      in the first line.\n\
     Enter a path to a directory and name you iso in the second line.\n\
+    To mount the disk partition, click the icon, then close it.\n\
+    The disk partition must be made writable. Right click the icon,\n\
+         select Actions, Change read write mode, answer YES.\n\
           For example:  iso\n\
                         /mnt/hda1/knoppix_clone_july04.iso\n\n\n\
-     to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\n\n\n\
+     to proceed and set up /home/knoppix/GROW_KNOPPIX       hit \n\
                  OK               or            Cancel\
 " 35 85 "Burn Speed -keep 0 for default --- or for iso file ----   iso " $BURN_SPEED "Burner: /dev/cdrom /dev/cdrom1 --- or for iso file --- edit /mnt/path/name.iso" \
 $DVD_BURNER 2>> /var/tmp/GK_DVD_DEV
