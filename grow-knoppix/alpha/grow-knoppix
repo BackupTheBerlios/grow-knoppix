@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.64 2005/05/13 05:52:11 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.65 2005/06/19 12:19:53 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.65  2005/06/19 12:19:53  paradocs
+# menu options to show how to use unionfs to add programs
+#
 # Revision 1.64  2005/05/13 05:52:11  paradocs
 # removed log entries
 #
@@ -141,17 +144,17 @@ echo -n "BOOT_VERSION=\"" > /var/tmp/GK_BOOT_VERSION
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\
-    Do not try to use a cloned CD DVD made grow-knoppix.\n\
+    Do not try to use a cloned CD DVD made with grow-knoppix.\n\
 1)  Select the boot method for your version of knoppix or kanotix.\n\
-2)  Click on OK to setup at home:\n\
-       GROW_KNOPPIX with subdirectories KNOPPIX and ROOT\n\
-       Copy boot.img  into  KNOPPIX -or- boot folder into ROOT.\n\
+2)  Click OK    This creates in your hame directory:\n\
+       GROW_KNOPPIX      with subdirectories     KNOPPIX and ROOT\n\
+       boot    folder in    ROOT.\n\
        Copy /mnt/cdrom/index.html        into your ROOT subdirectory.\n\n\
 If these files already exist, clicking OK will not change them.\n\n\
 " 35 85 10 \
-"boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5     KNOPPIX 3.3" "off" \
-"isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4    3.8.1" "off" \
-"stage1_5" "TYPE=/boot/grub/stage2 KANOTIX BH6    2005-2" "on" 2>> /var/tmp/GK_BOOT_VERSION
+"boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5   KNOPPIX 3.3  (for historic use only)" "off" \
+"isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4    3.8.1  and later" "off" \
+"stage1_5" "TYPE=/boot/grub/stage__ KANOTIX BH6   2005-2  and later" "on" 2>> /var/tmp/GK_BOOT_VERSION
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/GK_BOOT_VERSION  #End quote for variable in file
@@ -164,7 +167,7 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 echo -n "BURN_ISO=\"" > /var/tmp/GK_BURN_ISO
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-Burn directly to a DVD or CD \n\n\
+Burn directly to a DVD \n\n\
 --or--\n\n\
 Make and iso file which can be burned later.\n\n\n\
 Be sure to burn the iso file with the proper command\n\
@@ -172,8 +175,8 @@ such as    --make disk from image file--\n\
 for you burner software.\n\n\
 It is not correct to copy the iso file onto the a data disk!\n\n\
 " 35 85 10 \
-"dvd" "Burn directly to a DVD or CD burner" "on" \
-"iso" "Make an iso file on your drive to burn later." "off" 2>> /var/tmp/GK_BURN_ISO
+"dvd" "Burn directly to a DVD burner" "on" \
+"iso" "Make an iso file on your hard drive to burn later." "off" 2>> /var/tmp/GK_BURN_ISO
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/GK_BURN_ISO  #End quote for variable in file
@@ -226,13 +229,13 @@ CONTENT  You may add files and directories to:\n\
     GROW_KNOPPIX/ROOT to be copied to the root of you CD/DVD\n\
     GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
     (To copy to HOME, answer yes to make new configuration files.)\n\
-    (Links to add content from hard dirives may be added later.)\n\n\
+    (Links to add content from hard drives may be added later.)\n\n\
 INDEX    The file index.html has been copied from the boot CD to the\n\
     GROW_KNOPPIX/ROOT.  You may edit index.html to describe you content.\n\
     Please make the original index.html information available and give\n\
     credit to the the original KNOPPIX disk.\n\n\
 BOOT     Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
-    boot.img   -or-    /boot/isolinux/isoliunx.cfg   -or-   /grub/menu.1st\n\
+            /boot/isolinux/isoliunx.cfg   -or-  /boot/grub/menu.1st\n\
     You may add cheat codes, set your language, specify a perststent home.\n\n\
       OK                               Cancel\n\
       I have my new content if any     You may exit now and work\n\
@@ -277,15 +280,18 @@ echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
 
 
 Xdialog --title "GROW_KNOPPIX " --3inputsbox "\
-In addtiton, content may also come from up to 3 more directories.\n\n\
-The first directory created previously should include the file:   index.html\n\n\
-Note:  The directory itself is not created on the DVD -- \n\
-only it's contents is added together with others to the DVD root.\n\n\
-Because of this, do not use files or directories of the same name.\n\
-You may need to make a ContainerDirectory to hold a directory or file.\n\
-Remember the entry below is a directory -- not a file.\n\n\
-Include the final slash: for example   /mnt/hda1/ROOT/\n\n\
-          Click  OK  to Continue.         Click  Cancel to EXIT\
+Optional: In addititon, content may also come from up to 3 more directories.\n\n\
+The directory itself is not created on the DVD, only it's contents is added,\n\
+together with others, to the DVD root. Use a Container Directory if needed.\n\
+Do not use files or directories of the same name.\n\n\
+To add new programs:\n\
+1) Make a folder on a hard drive, for example     /mnt/hda5/union\n\
+2) Boot with cheat code      unionrw=/mnt/hda5/union\n\
+3) from console  su    4) apt-get update    5) apt-get install <programName>\n\
+6) Enter below /mnt/hda5/union/    7) Add cheat code    unionro=/cdrom/union\n\
+   to first boot in  /boot/isolinux/isoliunx.cfg -or- /boot/grub/ menu.1st\n\n\
+          Click  OK  to Continue.         Click  Cancel to EXIT\n\n\
+Enter a directory, not a file.  Include the final slash:  /mnt/hda1/ROOT/\
 " 35 85 "1.\n/home/knoppix/GROW_KNOPPIX/ROOT/ \n2." \
 "" "3." "" "4." "" 2>> /var/tmp/DVD_ROOT
 EXIT_CODE=$?
@@ -331,15 +337,16 @@ exit
 fi
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
-To:  Copy files from GROW_KNOPPIX/ROOT/HOME/ each boot.\n\
-     Make a new desktop backround wallpaper.\n\
-     Save configuration for desktop, programs, net, graphic, printer.\n\
-If you do this, on boot your configurations will be restored.\n\n\
+To restore any of the following on boot, select Yes and then click OK\n\
+     1) Copy files to /home/knoppix  from GROW_KNOPPIX/ROOT/HOME/ each boot.\n\
+     2) Make a new desktop backround wallpaper.\n\
+     3) Save configuration for desktop, programs, net, graphic, printer.\n\n\
 This will place configs.tbz and knoppix.sh in KNOPPIX on your new DVD.\n\
 Limitations:    Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD and recreate the configurations.\n\n\
-configs.tbz and knoppix.sh are created at /var/temp/GK_KNOPPIX/KNOPPIX/\n\
+Files coped to 
+    configs.tbz and knoppix.sh are created at /var/temp/GK_KNOPPIX/KNOPPIX/\n\
 Advanced users may edit knoppix.sh before it is bruned to you new disk.\n\n\
             OK     I have checked:             Cancel   Exit now.\n\
             YES for a new configs.tbz          You may make the  \n\
@@ -446,9 +453,9 @@ Xdialog --title "GROW_KNOPPIX " --inputbox "\
                           FINAL CHECK\n\n\
 Clone directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
 -->$KNOPPIX_PATH\n\n\
-Your burner is at:                ---or--- the iso file /path/name is:\n\
+Your burner is at:                ---or---   the iso file /path/name is:\n\
 -->$DVD_DEV\n\n\
-Your burner speed ( 0 = default)  ---or--- make an iso file  selected:\n\
+Your burner speed ( 0 = default)  ---or---   make an iso file  selected:\n\
 -->$BURN_SPEED\n\n\
 You are bringing together content from:\n\
 -->$DVD_ROOT\n\n\
