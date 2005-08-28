@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.67 2005/08/28 08:15:19 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.68 2005/08/28 08:44:00 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.68  2005/08/28 08:44:00  paradocs
+# menu chnages  plan to delete them menu requiring saveconfig for home file
+#
 # Revision 1.67  2005/08/28 08:15:19  paradocs
 # Worked on menu for CD name -- here we tell how to add content and autostart
 #
@@ -347,7 +350,7 @@ exit
 fi
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
-Use this option to:\n\ 
+Use this option to:\n\
 Save configuration for desktop, programs, net, graphic, printer.\n\n\
 Warning: This option will interfere with desktop device icons and\n\
 should not be used if the DVD will be used with differnet computers\n\
@@ -356,9 +359,9 @@ knoppix.sh in KNOPPIX on your new DVD.\n\n\
 Limitations:    Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD and recreate the configurations.\n\n\
-Files coped to 
-    configs.tbz and knoppix.sh are created at /var/temp/GK_KNOPPIX/KNOPPIX/\n\
-Advanced users may edit knoppix.sh before it is bruned to you new disk.\n\n\
+    configs.tbz and knoppix.sh are created in /var/temp/GK_KNOPPIX/KNOPPIX/\n\
+    knoppix.sh may be edited and more commands added to it in\n\
+    GROW_KNOPPIX/KNOPPIX.\n\n\
             OK     I have checked:             Cancel   Exit now.\n\
             YES for a new configs.tbz          You may make the  \n\
             and knoppix.sh to be added.        desired desktop changes\n\
