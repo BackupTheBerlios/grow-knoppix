@@ -1,8 +1,12 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.65 2005/06/19 12:19:53 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.66 2005/08/28 07:04:51 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.66  2005/08/28 07:04:51  paradocs
+# major change to place files in .kde/Autostart and /home/knoppix with
+# a tar tbz      in addition to  kanoppix config
+#
 # Revision 1.65  2005/06/19 12:19:53  paradocs
 # menu options to show how to use unionfs to add programs
 #
@@ -320,6 +324,7 @@ echo -n "GK_WALLPAPER=\"" > /var/tmp/GK_WALLPAPER
 Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
                       WALLPAPER BACKGROUND\n\\n\
 Leave unchanged and hit OK to keep the same background wallpaper.\n\n\
+To make a new wallpaper at startup:
 Enter a number in the first field to position and size the picture.\n\
     1 Centered   2 Tiled   3 Center Tiled   4 Centered Maxpect\n\
     5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
@@ -337,11 +342,12 @@ exit
 fi
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
-To restore any of the following on boot, select Yes and then click OK\n\
-     1) Copy files to /home/knoppix  from GROW_KNOPPIX/ROOT/HOME/ each boot.\n\
-     2) Make a new desktop backround wallpaper.\n\
-     3) Save configuration for desktop, programs, net, graphic, printer.\n\n\
-This will place configs.tbz and knoppix.sh in KNOPPIX on your new DVD.\n\
+Use this option to:\n\ 
+Save configuration for desktop, programs, net, graphic, printer.\n\n\
+Warning: This option may interfear with desktop device icons and\n\
+should not be used if the DVD will be used with differnet computers\n\
+and different or added hardware. This will place configs.tbz and\n\
+knoppix.sh in KNOPPIX on your new DVD.\n\n\
 Limitations:    Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD and recreate the configurations.\n\n\
