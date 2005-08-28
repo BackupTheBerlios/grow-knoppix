@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.66 2005/08/28 07:04:51 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.67 2005/08/28 08:15:19 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.67  2005/08/28 08:15:19  paradocs
+# Worked on menu for CD name -- here we tell how to add content and autostart
+#
 # Revision 1.66  2005/08/28 07:04:51  paradocs
 # major change to place files in .kde/Autostart and /home/knoppix with
 # a tar tbz      in addition to  kanoppix config
@@ -231,16 +234,17 @@ for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
                             OPTIONS:\n\
 CONTENT  You may add files and directories to:\n\
     GROW_KNOPPIX/ROOT to be copied to the root of you CD/DVD\n\
-    GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
-    (To copy to HOME, answer yes to make new configuration files.)\n\
-    (Links to add content from hard drives may be added later.)\n\n\
-INDEX    The file index.html has been copied from the boot CD to the\n\
-    GROW_KNOPPIX/ROOT.  You may edit index.html to describe you content.\n\
+HOME   GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
+       Warning: this will overwrite any saved files of the same name.\n\
+AUTOSTART GROW_KNOPPIX/HOME/.kde/Autostart may have scripts and links\n\
+    that will be run at boot time.  Check view hidden files to see .kde\n\
+INDEX  The file index.html has been copied from the boot CD to the\n\
+    GROW_KNOPPIX/ROOT.  You may edit index.html to describe your content.\n\
     Please make the original index.html information available and give\n\
-    credit to the the original KNOPPIX disk.\n\n\
-BOOT     Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
-            /boot/isolinux/isoliunx.cfg   -or-  /boot/grub/menu.1st\n\
-    You may add cheat codes, set your language, specify a perststent home.\n\n\
+    credit to the the original KNOPPIX disk.\n\
+BOOT  Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
+    edit  /boot/isolinux/isoliunx.cfg   -or-  /boot/grub/menu.1st\n\
+    for cheat codes for language, unionrw, specify a perststent home.\n\n\
       OK                               Cancel\n\
       I have my new content if any     You may exit now and work\n\
       in ~/GROW_KNOPPIX/               on content and return later.\n\
@@ -323,15 +327,16 @@ WALLPAPER_IMAGE="/"
 echo -n "GK_WALLPAPER=\"" > /var/tmp/GK_WALLPAPER
 Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
                       WALLPAPER BACKGROUND\n\\n\
-Leave unchanged and hit OK to keep the same background wallpaper.\n\n\
-To make a new wallpaper at startup:
+Make no changes here and hit OK to keep the same background wallpaper.\n\n\
+To make a new wallpaper for startup:\n\
 Enter a number in the first field to position and size the picture.\n\
     1 Centered   2 Tiled   3 Center Tiled   4 Centered Maxpect\n\
     5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
 Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\
 To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
 Try different Picture and Position settings.\n\n\
-This will make a file /home/knoppix/.kde/Autostart/wallpaper\n\n\n\
+This will make a file /home/knoppix/.kde/Autostart/wallpaper\n\
+A second method is to place a file background.png in GROW_KNOPPIX\KNOPPIX\n\n\
                  OK               or            Cancel\
 " 35 85 "Position and Size Mode -- Enter a mode number bewteen 1 and 8 " $WALLPAPER_MODE \
 "/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
@@ -344,7 +349,7 @@ fi
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 Use this option to:\n\ 
 Save configuration for desktop, programs, net, graphic, printer.\n\n\
-Warning: This option may interfear with desktop device icons and\n\
+Warning: This option will interfere with desktop device icons and\n\
 should not be used if the DVD will be used with differnet computers\n\
 and different or added hardware. This will place configs.tbz and\n\
 knoppix.sh in KNOPPIX on your new DVD.\n\n\
