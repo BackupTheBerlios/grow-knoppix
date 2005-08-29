@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.71 2005/08/29 07:21:14 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.72 2005/08/29 07:44:29 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.72  2005/08/29 07:44:29  paradocs
+# moved wallpaper generating script
+#
 # Revision 1.71  2005/08/29 07:21:14  paradocs
 # building autostart.tbz from HOME and AUTOSTART
 #
@@ -360,6 +363,31 @@ if [ $EXIT_CODE -ne 0 ] ; then \
 exit
 fi
 
+
+#### background
+echo -n "\"" >> /var/tmp/GK_WALLPAPER      #End quote for variable in file
+. /var/tmp/GK_WALLPAPER                    #Source: run the file, set variable
+GK_WALLPAPER=${GK_WALLPAPER%?}    #Glob strip of one character form the end
+WALLPAPER_FILE=${GK_WALLPAPER#*/}
+WALLPAPER_MODE=${GK_WALLPAPER%%/*}
+
+if [ $WALLPAPER_FILE != "/" ] ; then \  
+cp $WALLPAPER_FILE /home/knoppix/GROW_KNOPPIX/ROOT
+WALLPAPER=${WALLPAPER_FILE##*/}
+cat > "/home/knoppix/GROW_KNOPPIX/AUTOSTART/wallpaper" << EOT
+[Desktop Entry]
+Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/$WALLPAPER $WALLPAPER_MODE
+Icon=background
+Name=Wallpaper
+Name[en_US]=Wallpaper
+Type=Application
+EOT
+fi
+
+
+
+
+
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 Use this option if you need to:\n\
 Save configuration for desktop, programs, net, graphic, or printer.\n\n\
@@ -403,26 +431,7 @@ awk '/^mount/ {print "#"} !/^mount/ {print}' /var/tmp/GK_SAVE2 > /var/tmp/GK_SAV
 
 exec /var/tmp/GK_SAVE1 &
 
-#### background
-echo -n "\"" >> /var/tmp/GK_WALLPAPER      #End quote for variable in file
-. /var/tmp/GK_WALLPAPER                    #Source: run the file, set variable
-GK_WALLPAPER=${GK_WALLPAPER%?}    #Glob strip of one character form the end
-WALLPAPER_FILE=${GK_WALLPAPER#*/}
-WALLPAPER_MODE=${GK_WALLPAPER%%/*}
-
-if [ $WALLPAPER_FILE != "/" ] ; then \  
-cp $WALLPAPER_FILE /home/knoppix/GROW_KNOPPIX/ROOT
-WALLPAPER=${WALLPAPER_FILE##*/}
-cat > "/home/knoppix/GROW_KNOPPIX/AUTOSTART/wallpaper" << EOT
-[Desktop Entry]
-Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/$WALLPAPER $WALLPAPER_MODE
-Icon=background
-Name=Wallpaper
-Name[en_US]=Wallpaper
-Type=Application
-EOT
-fi
-
+###moved backgound
 Xdialog --title "GROW_KNOPPIX " --msg "\
 !!  WAIT  !!\nDO THIS LAST\n\nClick   OK\n\
 only after finishing configuration archive dialog has give the success \
