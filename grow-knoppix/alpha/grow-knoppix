@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.72 2005/08/29 07:44:29 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.73 2005/08/29 08:05:02 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.73  2005/08/29 08:05:02  paradocs
+# mover code to make wallpaper link in Autostart
+#
 # Revision 1.72  2005/08/29 07:44:29  paradocs
 # moved wallpaper generating script
 #
@@ -374,7 +377,7 @@ WALLPAPER_MODE=${GK_WALLPAPER%%/*}
 if [ $WALLPAPER_FILE != "/" ] ; then \  
 cp $WALLPAPER_FILE /home/knoppix/GROW_KNOPPIX/ROOT
 WALLPAPER=${WALLPAPER_FILE##*/}
-cat > "/home/knoppix/GROW_KNOPPIX/AUTOSTART/wallpaper" << EOT
+cat > "/home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART/wallpaper" << EOT
 [Desktop Entry]
 Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/$WALLPAPER $WALLPAPER_MODE
 Icon=background
@@ -384,6 +387,13 @@ Type=Application
 EOT
 fi
 
+#========== build home-autostart-start.tbz file is built from HOME AUTOSTART START
+mkdir -p /var/tmp/GK_START/home/knoppix/.kde/Autostart
+cp -Rf /home/knoppix/GROW_KNOPPIX/HOME /var/tmp/GK_START/home/knoppix
+cp -Rf /home/knoppix/GROW_KNOPPIX/AUTOSTART /var/tmp/GK_START/home/knoppix/.kde/Autostart
+cd /var/tmp/GK_START
+tar -jpPcf home-autostart.tbz ./
+cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
 
 
 
@@ -441,51 +451,38 @@ The files will be placed the DVD root and will be detected at boot.\n\
 rm GK_SAVE1
 rm GK_SAVE2
 
-Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
-In addition to configuration files, you may have some files placed in\n\
-   /home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
-   to be placed into /home/knoppix at each boot.\n\n\
-Caution: This recopies the same files at each boot and may interfear with\n\
-the persistent home method of restoring files to /home/knoppix.\n\
-This will write over any file of the same name.\n\
-For most purposes, use the persistent home method.\n\n\
-            OK     I have checked:             Cancel   Exit now.\n\n\
-            YES so that my files will          You may make the  \n\
-            be copied to HOME on boot.         desired desktop changes\n\n\
-                         or                              and\n\n\
-            NO   I do not want additional      return later.\n\
-            files copied into HOME.\n\
-" 35 85 10 "GK_HOME=0" "NO, do not copy additional files to HOME on boot." "on" "GK_HOME=1" "YES copy file to /home/knoppix on boot." "off" \
-2> /var/tmp/GK_HOME
-EXIT_CODE=$?
+#Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+#In addition to configuration files, you may have some files placed in\n\
+#   /home/knoppix/GROW_KNOPPIX/ROOT/HOME\n\
+#   to be placed into /home/knoppix at each boot.\n\n\
+#Caution: This recopies the same files at each boot and may interfear with\n\
+#the persistent home method of restoring files to /home/knoppix.\n\
+#This will write over any file of the same name.\n\
+#For most purposes, use the persistent home method.\n\n\
+#            OK     I have checked:             Cancel   Exit now.\n\n\
+#            YES so that my files will          You may make the  \n\
+#            be copied to HOME on boot.         desired desktop changes\n\n\
+#                         or                              and\n\n\
+#            NO   I do not want additional      return later.\n\
+#            files copied into HOME.\n\
+#" 35 85 10 "GK_HOME=0" "NO, do not copy additional files to HOME on boot." "on" "GK_HOME=1" "YES copy file to /home/knoppix on boot." "off" \
+#2> /var/tmp/GK_HOME
+#EXIT_CODE=$?
+#
+#. /var/tmp/GK_HOME
+#rm /var/tmp/GK_HOME
+#if [ $EXIT_CODE -ne 0 ] ; then \
+#exit
+#fi
 
-. /var/tmp/GK_HOME
-rm /var/tmp/GK_HOME
-if [ $EXIT_CODE -ne 0 ] ; then \
-exit
-fi
-
-if [ $GK_HOME -eq 1 ] ; then \
-sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
-sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
-#sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
-#sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
-echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-fi
-
-#========== build home-autostart-start.tbz file is built from HOME AUTOSTART START
-mkdir -p /var/tmp/GK_START/home/knoppix/.kde/Autostart/
-cp -Rf /home/knoppix/GROW_KNOPPIX/HOME /var/tmp/GK_START/home/knoppix
-cp -Rf /home/knoppix/GROW_KNOPPIX/AUTOSTART /var/tmp/GK_START/home/knoppix/.kde/Autostart
-cd /var/tmp/GK_START
-tar -jpPcf home-autostart.tbz ./
-cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
-
-
-
-
-
+#if [ $GK_HOME -eq 1 ] ; then \
+#sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
+#sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
+##sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
+##sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
+#echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#fi
 
 
 fi
