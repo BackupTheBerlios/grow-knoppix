@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.69 2005/08/29 04:20:40 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.70 2005/08/29 04:43:41 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.70  2005/08/29 04:43:41  paradocs
+# Wallpaper not places the desktop script into GWOW_KNOPPIX/AUTOSTART
+#
 # Revision 1.69  2005/08/29 04:20:40  paradocs
 # added GROW_KNOPPIX/AUTOSTART folder and menu description
 #
@@ -355,13 +358,12 @@ exit
 fi
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
-Use this option to:\n\
-Save configuration for desktop, programs, net, graphic, printer.\n\n\
-Warning: This option will interfere with desktop device icons and\n\
-should not be used if the DVD will be used with differnet computers\n\
-and different or added hardware. This will place configs.tbz and\n\
-knoppix.sh in KNOPPIX on your new DVD.\n\n\
-Limitations:    Once you have a DVD with these configuration files you\n\
+Use this option if you need to:\n\
+Save configuration for desktop, programs, net, graphic, or printer.\n\n\
+Warning: Do not use this if the DVD will be used with different computers.\n\
+This option will interfere with desktop device icons and detection\n\
+of new hardware.  This will place configs.tbz and knoppix.sh in KNOPPIX\n\n\
+Limitations:   Once you have a DVD with these configuration files you\n\
 may not change them on future DVDs made with this DVD and grow-knoppix.\n\
 You may start with a fresh KNOPPIX CD and recreate the configurations.\n\n\
     configs.tbz and knoppix.sh are created in /var/temp/GK_KNOPPIX/KNOPPIX/\n\
@@ -408,7 +410,7 @@ WALLPAPER_MODE=${GK_WALLPAPER%%/*}
 if [ $WALLPAPER_FILE != "/" ] ; then \  
 cp $WALLPAPER_FILE /home/knoppix/GROW_KNOPPIX/ROOT
 WALLPAPER=${WALLPAPER_FILE##*/}
-cat > "/home/knoppix/.kde/Autostart/wallpaper" << EOT
+cat > "/home/knoppix/GROW_KNOPPIX/AUTOSTART/wallpaper" << EOT
 [Desktop Entry]
 Exec=dcop kdesktop KBackgroundIface setWallpaper /cdrom/$WALLPAPER $WALLPAPER_MODE
 Icon=background
