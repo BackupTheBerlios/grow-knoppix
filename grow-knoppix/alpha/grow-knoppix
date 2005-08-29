@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.70 2005/08/29 04:43:41 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.71 2005/08/29 07:21:14 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.71  2005/08/29 07:21:14  paradocs
+# building autostart.tbz from HOME and AUTOSTART
+#
 # Revision 1.70  2005/08/29 04:43:41  paradocs
 # Wallpaper not places the desktop script into GWOW_KNOPPIX/AUTOSTART
 #
@@ -461,6 +464,20 @@ sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 fi
+
+#========== build home-autostart-start.tbz file is built from HOME AUTOSTART START
+mkdir -p /var/tmp/GK_START/home/knoppix/.kde/Autostart/
+cp -Rf /home/knoppix/GROW_KNOPPIX/HOME /var/tmp/GK_START/home/knoppix
+cp -Rf /home/knoppix/GROW_KNOPPIX/AUTOSTART /var/tmp/GK_START/home/knoppix/.kde/Autostart
+cd /var/tmp/GK_START
+tar -jpPcf home-autostart.tbz ./
+cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
+
+
+
+
+
+
 
 fi
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
