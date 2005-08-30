@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.79 2005/08/30 04:44:11 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.80 2005/08/30 04:59:25 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.80  2005/08/30 04:59:25  paradocs
+# still fixing   HOME
+#
 # Revision 1.79  2005/08/30 04:44:11  paradocs
 # correcting    HOME direcory created     unwanted in GK_START
 #
@@ -93,8 +96,7 @@ und den Desktop.\n\n\
             
             OK. Ich habe die Bestimmungen  Cancel   Bitte lese die Hilfe\n\
             und Hilfe gelesen.             und das GNU copyright.\n\
-" 35 85 10 "en" "English" "on" "de" "Deutsch nicht jetzt" "off" \
-2>> /var/tmp/GK_LANGUAGE
+" 35 85 10 "en" "English" "on" "de" "Deutsch nicht jetzt" "off" 2>> /var/tmp/GK_LANGUAGE
 EXIT_CODE=$?
 
 echo -n "\"" >> /var/tmp/GK_LANGUAGE  #End quote for variable in file
@@ -411,8 +413,8 @@ EOT
 fi
 
 #========== build home-autostart-start.tbz file is built from HOME AUTOSTART START
-cp -Rf /home/knoppix/GROW_KNOPPIX/ROOT/HOME/ /var/tmp/GK_START/home/knoppix/
-cp -Rf /home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART/ /var/tmp/GK_START/home/knoppix/.kde/Autostart
+cp -Rf /home/knoppix/GROW_KNOPPIX/ROOT/HOME /var/tmp/GK_START/home/knoppix
+cp -Rf /home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART /var/tmp/GK_START/home/knoppix/.kde/Autostart
 cd /var/tmp/GK_START
 tar -jpPcf home-autostart.tbz ./
 cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
