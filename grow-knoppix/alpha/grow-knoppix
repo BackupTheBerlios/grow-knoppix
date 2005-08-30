@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.82 2005/08/30 07:09:40 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.83 2005/08/30 08:30:57 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.83  2005/08/30 08:30:57  paradocs
+# knoppix.sh    written
+#
 # Revision 1.82  2005/08/30 07:09:40  paradocs
 # saveconfig and knoppix.sh need to be moved
 #
@@ -507,16 +510,43 @@ rm GK_SAVE2
 #fi
 
 #if [ $GK_HOME -eq 1 ] ; then \
-sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
-sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
+
+#sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
+#sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 ##sudo chmod a+rwx /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
 ##sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX/KNOPPIX/configs.tzb
-echo "cd /cdrom/HOME" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
-echo "cp -R ./ /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#echo "tar -jpPtf /cdrom/autostart.tbz | while read i; do rm -f \"$i\"; done"
+#echo "tar -jpPxf /cdrom/autostart.tbz" >> / ar/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+#echo "chown -R knoppix.knoppix /home/knoppix/" >> /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+
 #fi
 
 
 fi
+
+##always make a knoppix.tzb           may error out ??? 
+sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
+sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
+rm /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
+
+cat > "/var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh" << EOT
+#!/bin/sh
+[ "`id -u`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
+[ -d "$1" ] && CONFIGS="$1/configs.tbz"
+[ -f "$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
+[ -f "$CONFIGS" ] || CONFIGS="/mnt/floppy/configs.tbz"
+if [ -f "$CONFIGS" ]; then
+echo "[1mExtracting config archive $CONFIGS...[0m"
+tar -jpPtf "$CONFIGS" | while read i; do rm -f "$i"; done
+tar -jpPxf "$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
+fi
+tar -jpPtf /cdrom/autostart.tbz | while read i; do rm -f "$i"; done
+tar -jpPxf /cdrom/autostart.tbz
+chown -R knoppix.knoppix /home/knoppix/
+EOT
+
+
+
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
 # the following reads these strings from the new DVD
 ### data="`dd if=/dev/cdrom ibs=1024 skip=32 count=1 2>/dev/null`"
