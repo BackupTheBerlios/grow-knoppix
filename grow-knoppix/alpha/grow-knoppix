@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.77 2005/08/29 09:23:34 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.78 2005/08/30 04:24:19 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.78  2005/08/30 04:24:19  paradocs
+# tried to fix   KNOPPIX_PATH variable
+#
 # Revision 1.77  2005/08/29 09:23:34  paradocs
 # corrected cp     /HOME    should be     /HOME/   to be the contents of folder
 #
@@ -259,6 +262,9 @@ mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/KNOPPIX
 
+
+echo -n "KNOPPIX_PATH=\"" > /var/tmp/GK_KNOPPIX_PATH
+
 Xdialog --title "GROW_KNOPPIX Screen 5" --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
 for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
@@ -280,10 +286,9 @@ BOOT  Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
       OK                               Cancel\n\
       I have my new content if any     You may exit now and work\n\
       in ~/GROW_KNOPPIX/               on content and return later.\n\
-"   35 85 $KNOPPIX_PATH  2>> /var/tmp/KNOPPIX_PATH
+"   35 85 $KNOPPIX_PATH  2>> /var/tmp/GK_KNOPPIX_PATH
 EXIT_CODE=$?
 . /var/tmp/KNOPPIX_PATH
-rm /var/tmp/KNOPPIX_PATH
 
 ####need to make   cdrom a variable $KNOPPIX_PATH
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
