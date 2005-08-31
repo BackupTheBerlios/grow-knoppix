@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.85 2005/08/31 02:52:00 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.86 2005/08/31 04:25:36 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.86  2005/08/31 04:25:36  paradocs
+# escaped the $ with      \
+#
 # Revision 1.85  2005/08/31 02:52:00  paradocs
 # testing to see if tbz file exists on the cd
 #
@@ -538,13 +541,13 @@ rm /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 cat > "/var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh" << EOT
 #!/bin/sh
 [ "`id -u`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
-[ -d "$1" ] && CONFIGS="$1/configs.tbz"
-[ -f "$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
-[ -f "$CONFIGS" ] || CONFIGS="/mnt/floppy/configs.tbz"
-if [ -f "$CONFIGS" ]; then
-echo "[1mExtracting config archive $CONFIGS...[0m"
-tar -jpPtf "$CONFIGS" | while read i; do rm -f "\$i"; done
-tar -jpPxf "$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
+[ -d "\$1" ] && CONFIGS="\$1/configs.tbz"
+[ -f "\$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
+[ -f "\$CONFIGS" ] || CONFIGS="/mnt/floppy/configs.tbz"
+if [ -f "\$CONFIGS" ]; then
+echo "[1mExtracting config archive \$CONFIGS...[0m"
+tar -jpPtf "\$CONFIGS" | while read i; do rm -f "\$i"; done
+tar -jpPxf "\$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
 fi
 if [ -f /cdrom/autostart.tbs ]; then
 tar -jpPtf /cdrom/autostart.tbz | while read i; do rm -f "\$i"; done
