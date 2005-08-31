@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.87 2005/08/31 06:51:55 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.88 2005/08/31 08:08:44 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.88  2005/08/31 08:08:44  paradocs
+# use   su   and   cd to run    knoppix.sh  correctly
+#
 # Revision 1.87  2005/08/31 06:51:55  paradocs
 # corrected home-autostart name
 #
@@ -543,6 +546,7 @@ rm /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 
 cat > "/var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh" << EOT
 #!/bin/sh
+su
 [ "`id -u`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
 [ -d "\$1" ] && CONFIGS="\$1/configs.tbz"
 [ -f "\$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
@@ -552,6 +556,7 @@ echo "[1mExtracting config archive \$CONFIGS...[0m"
 tar -jpPtf "\$CONFIGS" | while read i; do rm -f "\$i"; done
 tar -jpPxf "\$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
 fi
+cd /
 if [ -f /cdrom/home-autostart.tbz ]; then
 tar -jpPtf /cdrom/home-autostart.tbz | while read i; do rm -f "\$i"; done
 tar -jpPxf /cdrom/home-autostart.tbz
