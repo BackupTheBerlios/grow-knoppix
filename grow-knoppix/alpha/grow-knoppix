@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.91 2005/09/01 05:18:03 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.92 2005/09/01 05:33:31 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.92  2005/09/01 05:33:31  paradocs
+# added   DESKTOP   amd menu change
+#
 # Revision 1.91  2005/09/01 05:18:03  paradocs
 # had to excape the backticks  \`
 #
@@ -244,7 +247,7 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 ########
 echo -n "BURN_ISO=\"" > /var/tmp/GK_BURN_ISO
 
-Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+Xdialog --title "GROW_KNOPPIX  3" --no-tags --radiolist "\n\n\
 Burn directly to a DVD \n\n\
 --or--\n\n\
 Make and iso file which can be burned later.\n\n\n\
@@ -267,7 +270,7 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 #set a variable with the DVD write device
 echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
 
-Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
+Xdialog --title "GROW_KNOPPIX  4 " --2inputsbox "\
 BURN DVD:  Make sure your DVD burner device is set below.\n\
     For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
     For help you can see your devices by entering: cat /etc/fstab.\n\
@@ -299,11 +302,12 @@ mkdir /home/knoppix/GROW_KNOPPIX/ROOT
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/HOME
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/KNOPPIX
+mkdir /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
 
 
 echo -n "KNOPPIX_PATH=\"" > /var/tmp/GK_KNOPPIX_PATH
 
-Xdialog --title "GROW_KNOPPIX Screen 5" --inputbox "\
+Xdialog --title "GROW_KNOPPIX  5" --inputbox "\
 Make sure the entry below points to the bootable CD to be copied.\n\
 for example:        /mnt/cdrom   or   /mnt/cdrom1\n\n\
                             OPTIONS:\n\
@@ -314,13 +318,14 @@ HOME   GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
 AUTOSTART You may add executable scripts and application links to:\n
        GROW_KNOPPIX/AUTOSTART  These will be placed in ~/.kde/Autostart\n\
        and will be run at boot time.\n\
+DESKTOP  You may add links to applications and introduction html pages.\n\       
 INDEX  The file index.html has been copied from the boot CD to the\n\
     GROW_KNOPPIX/ROOT.  You may edit index.html to describe your content.\n\
     Please make the original index.html information available and give\n\
     credit to the the original KNOPPIX disk.\n\
 BOOT  Boot files have been copied from the CD to GROW_KNOPPIX/ROOT/boot\n\
     edit  /boot/isolinux/isoliunx.cfg   -or-  /boot/grub/menu.1st\n\
-    for cheat codes for language, unionrw, specify a perststent home.\n\n\
+    cheat codes for language, unionrw, or specify a perststent home.\n\n\
       OK                               Cancel\n\
       I have my new content if any     You may exit now and work\n\
       in ~/GROW_KNOPPIX/               on content and return later.\n\
@@ -507,8 +512,8 @@ only after finishing configuration archive dialog has give the success \
 message. The final message does not apply to grow-knoppix. \
 The files will be placed the DVD root and will be detected at boot.\n\
 " 30 20
-rm GK_SAVE1
-rm GK_SAVE2
+
+
 
 #Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 #In addition to configuration files, you may have some files placed in\n\
