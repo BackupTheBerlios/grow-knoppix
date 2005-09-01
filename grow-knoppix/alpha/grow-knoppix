@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.89 2005/08/31 09:17:07 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.90 2005/09/01 03:26:19 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.90  2005/09/01 03:26:19  paradocs
+# chmod777 kanotix.sh     comment out rm line for home-autostart
+#
 # Revision 1.89  2005/08/31 09:17:07  paradocs
 # corrected cd /    did not work
 #
@@ -450,7 +453,8 @@ tar -jpPcf home-autostart.tbz ./
 cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
 
 
-
+### idea   do not put configs.tbz in KNOPPIX  put it on the CD ROOT     then 
+### recloning is less of a problem
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
 Use this option if you need to:\n\
 Save configuration for desktop, programs, net, graphic, or printer.\n\n\
@@ -542,21 +546,20 @@ rm GK_SAVE2
 
 fi
 
-##always make a knoppix.tzb           may error out ??? 
+##always make a knoppix.tzb           may error out if empty ??? 
 sudo chmod -R a+rwx /var/tmp/GK_KNOPPIX
 sudo chown -R knoppix.knoppix /var/tmp/GK_KNOPPIX
 rm /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 
 cat > "/var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh" << EOT
 #!/bin/sh
-su
 [ "`id -u`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
 [ -d "\$1" ] && CONFIGS="\$1/configs.tbz"
 [ -f "\$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
 [ -f "\$CONFIGS" ] || CONFIGS="/mnt/floppy/configs.tbz"
 if [ -f "\$CONFIGS" ]; then
 echo "[1mExtracting config archive \$CONFIGS...[0m"
-tar -jpPtf "\$CONFIGS" | while read i; do rm -f "\$i"; done
+#tar -jpPtf "\$CONFIGS" | while read i; do rm -f "\$i"; done
 tar -jpPxf "\$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
 fi
 if [ -f /cdrom/home-autostart.tbz ]; then
@@ -565,6 +568,7 @@ tar -jpPxf /cdrom/home-autostart.tbz
 chown -R knoppix.knoppix /home/knoppix
 fi
 EOT
+chmod 777 /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
 # the following reads these strings from the new DVD
