@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.90 2005/09/01 03:26:19 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.91 2005/09/01 05:18:03 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.91  2005/09/01 05:18:03  paradocs
+# had to excape the backticks  \`
+#
 # Revision 1.90  2005/09/01 03:26:19  paradocs
 # chmod777 kanotix.sh     comment out rm line for home-autostart
 #
@@ -553,7 +556,7 @@ rm /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 
 cat > "/var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh" << EOT
 #!/bin/sh
-[ "`id -u`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
+[ "\`id -u\`" = "0" ] || { echo "You need root privileges to modify the system!" >&2 ; exit 1; }
 [ -d "\$1" ] && CONFIGS="\$1/configs.tbz"
 [ -f "\$CONFIGS" ] || CONFIGS="/cdrom/KNOPPIX/configs.tbz"
 [ -f "\$CONFIGS" ] || CONFIGS="/mnt/floppy/configs.tbz"
