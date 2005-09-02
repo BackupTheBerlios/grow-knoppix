@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.96 2005/09/02 09:17:33 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.97 2005/09/02 09:19:55 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.97  2005/09/02 09:19:55  paradocs
+# Corrected  a comment line error
+#
 # Revision 1.96  2005/09/02 09:17:33  paradocs
 # Working version -- menu for union changed.
 #
@@ -34,7 +37,7 @@
 # Revision 1.87  2005/08/31 06:51:55  paradocs
 # corrected home-autostart name
 #
- tried to fix   KNOPPIX_PATH variable
+# tried to fix   KNOPPIX_PATH variable
 ############END OF LOG#############
 # Set the next line for your default DVD device, likely /dev/cdrom1 
 DVD_BURNER="/dev/cdrom1"
