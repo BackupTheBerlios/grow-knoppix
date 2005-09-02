@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.100 2005/09/02 09:49:31 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.101 2005/09/02 09:55:22 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.101  2005/09/02 09:55:22  paradocs
+# menu chnage
+#
 # Revision 1.100  2005/09/02 09:49:31  paradocs
 # menu fix
 #
@@ -324,8 +327,8 @@ To add new programs you may build a union file system on an hard drive:\n\
 3) From console  su    4) apt-get update    5) apt-get install <programName>\n\
 6) Put the union file on the DVD, enter below  /mnt/hda5/folder-of-myunion-image/\n\
 7) Add a cheat code    unionro=/cdrom/myunion-image  to first boot section in\n\
-8) Optionally Copy to a hard drive and use   unionrw=/mnt/hda1/myunion-image\n\
-        /boot/isolinux/isoliunx.cfg -or- /boot/grub/ menu.1st\n\n\
+       /boot/isolinux/isoliunx.cfg  -or-  /boot/grub/ menu.1st\n\
+8) Optionally Copy to a hard drive and use   unionrw=/mnt/hda1/myunion-image\n\n\
           Click  OK  to Continue.         Click  Cancel to EXIT\n\
 Enter a directory, not a file.  Include the final slash:  /mnt/hda1/ROOT/\
 " 35 85 "1.\n/home/knoppix/GROW_KNOPPIX/ROOT/ \n2." \
