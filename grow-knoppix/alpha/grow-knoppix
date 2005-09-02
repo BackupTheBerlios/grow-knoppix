@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.94 2005/09/02 03:18:28 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.95 2005/09/02 03:30:27 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.95  2005/09/02 03:30:27  paradocs
+# add u to copy
+#
 # Revision 1.94  2005/09/02 03:18:28  paradocs
 # knoppix and Desktop did did not receive files but Autostart and config.tbs did
 # corrected DESKTOP
@@ -460,11 +463,11 @@ fi
 
 #========== build home-autostart-start.tbz file is built from HOME AUTOSTART START
 cd /home/knoppix/GROW_KNOPPIX/ROOT/HOME
-cp -Rf ./ /var/tmp/GK_START/home/knoppix
+cp -uRf ./ /var/tmp/GK_START/home/knoppix
 cd /home/knoppix/GROW_KNOPPIX/ROOT/AUTOSTART
-cp -Rf ./ /var/tmp/GK_START/home/knoppix/.kde/Autostart
+cp -uRf ./ /var/tmp/GK_START/home/knoppix/.kde/Autostart
 cd /home/knoppix/GROW_KNOPPIX/ROOT/DESKTOP
-cp -Rf ./ /var/tmp/GK_START/home/knoppix/Desktop
+cp -uRf ./ /var/tmp/GK_START/home/knoppix/Desktop
 cd /var/tmp/GK_START
 tar -jpPcf home-autostart.tbz ./
 cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
