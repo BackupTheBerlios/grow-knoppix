@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.98 2005/09/02 09:36:07 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.99 2005/09/02 09:40:29 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.99  2005/09/02 09:40:29  paradocs
+# menu change
+#
 # Revision 1.98  2005/09/02 09:36:07  paradocs
 # menu changes
 #
@@ -255,7 +258,7 @@ HOME   GROW_KNOPPIX/ROOT/HOME to be copied to your home directory.\n\
 AUTOSTART You may add executable scripts and application links to:\n
        GROW_KNOPPIX/AUTOSTART  These will be placed in ~/.kde/Autostart\n\
        and will be run at boot time.\n\
-DESKTOP  You may add links to applications and introduction html pages.\n\       
+DESKTOP  You may add links to applications and introduction html pages.\n\
 INDEX  The file index.html has been copied from the boot CD to the\n\
     GROW_KNOPPIX/ROOT.  You may edit index.html to describe your content.\n\
     Please make the original index.html information available and give\n\
