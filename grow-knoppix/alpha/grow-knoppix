@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.97 2005/09/02 09:19:55 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.98 2005/09/02 09:36:07 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.98  2005/09/02 09:36:07  paradocs
+# menu changes
+#
 # Revision 1.97  2005/09/02 09:19:55  paradocs
 # Corrected  a comment line error
 #
@@ -157,13 +160,15 @@ echo -n "BOOT_VERSION=\"" > /var/tmp/GK_BOOT_VERSION
 
 Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
 You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\
-    Do not try to use a cloned CD DVD made with grow-knoppix.\n\
+    Do not try to reuse a cloned CD DVD made with grow-knoppix.\n\
 1)  Select the boot method for your version of knoppix or kanotix.\n\
-2)  Click OK    This creates in your hame directory:\n\
-       GROW_KNOPPIX      with subdirectories     KNOPPIX and ROOT\n\
-       boot    folder in    ROOT.\n\
-       Copy /mnt/cdrom/index.html        into your ROOT subdirectory.\n\n\
-If these files already exist, clicking OK will not change them.\n\n\
+2)  Click OK\n\
+    This and the next 2 steps will creates in your home directory:\n\
+    GROW_KNOPPIX/ROOT with subdirectories HOME KNOPPIX DESKTOP AUTOSTART boot\n\
+       files will be copied into the   GROW_KNOPPIX/ROOT/boot    folder\n\
+       /mnt/cdrom/index.html   is copied into your ROOT subdirectory.\n\n\
+    If these files already exist by copying them or from a previous run,\n\
+    clicking OK will not change them.\n\n\
 " 35 85 10 \
 "boot.img" "TYPE=/KNOPPIX/boot.img  KANOTIX BH5   KNOPPIX 3.3  (for historic use only)" "off" \
 "isolinux.bin" "TYPE=/boot/isolinux/isolinux.bin  KNOPPIX 3.4    3.8.1  and later" "off" \
