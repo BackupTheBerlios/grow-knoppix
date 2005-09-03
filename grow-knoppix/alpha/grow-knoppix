@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.101 2005/09/02 09:55:22 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.102 2005/09/03 04:41:33 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.102  2005/09/03 04:41:33  paradocs
+# page number for the 10 screens
+#
 # Revision 1.101  2005/09/02 09:55:22  paradocs
 # menu chnage
 #
@@ -65,7 +68,7 @@ export XDIALOG_HIGH_DIALOG_COMPAT
 
 echo -n "LANGUAGE=\"" > /var/tmp/GK_LANGUAGE
 
-Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+Xdialog --title "GROW_KNOPPIX 1" --no-tags --radiolist "\n\n\
 Publish your content in the root of a new KNOPPIX based live boot CD/DVD.\n\
 Change the boot file, background image, index.html, and desktop.\n\n\
 Kopiere dein Inhalt in die root einer neuen Knoppix basierten live CD/DVD.\n\
@@ -167,7 +170,7 @@ fi
 #########
 echo -n "BOOT_VERSION=\"" > /var/tmp/GK_BOOT_VERSION
 
-Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\n\
+Xdialog --title "GROW_KNOPPIX 2" --no-tags --radiolist "\n\n\
 You must have a supported KNOPPIX or KANOTIX CD in you CD drive.\n\
     Do not try to reuse a cloned CD DVD made with grow-knoppix.\n\
 1)  Select the boot method for your version of knoppix or kanotix.\n\
@@ -216,7 +219,7 @@ if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 #set a variable with the DVD write device
 echo -n "GK_DVD_DEV=\"" > /var/tmp/GK_DVD_DEV
 
-Xdialog --title "GROW_KNOPPIX  4 " --2inputsbox "\
+Xdialog --title "GROW_KNOPPIX  4" --2inputsbox "\
 BURN DVD:  Make sure your DVD burner device is set below.\n\
     For example:  /dev/cdrom  /dev/cdrom1  /dev/cdrom2 .\n\
     For help you can see your devices by entering: cat /etc/fstab.\n\
@@ -315,7 +318,7 @@ echo -n "DVD_ROOT=\"/var/tmp/BindCD/ /home/knoppix/GROW_KNOPPIX/ROOT/ \
 /var/tmp/GK_KNOPPIX/ " > /var/tmp/DVD_ROOT
 
 
-Xdialog --title "GROW_KNOPPIX " --3inputsbox "\
+Xdialog --title "GROW_KNOPPIX 6" --3inputsbox "\
 Optional: In addititon, content may also come from up to 3 more directories.\n\
 The directory itself is not created on the DVD, only it's contents is added,\n\
 together with others, to the DVD root. Use a Container Directory if needed.\n\
@@ -356,7 +359,7 @@ fi
 WALLPAPER_MODE="4"
 WALLPAPER_IMAGE="/"
 echo -n "GK_WALLPAPER=\"" > /var/tmp/GK_WALLPAPER
-Xdialog --title "GROW_KNOPPIX " --2inputsbox "\
+Xdialog --title "GROW_KNOPPIX 7" --2inputsbox "\
                       WALLPAPER BACKGROUND\n\\n\
 Make no changes here and hit OK to keep the same background wallpaper.\n\n\
 To make a new wallpaper for startup:\n\
@@ -414,7 +417,7 @@ cp home-autostart.tbz /home/knoppix/GROW_KNOPPIX/ROOT
 
 ### idea   do not put configs.tbz in KNOPPIX  put it on the CD ROOT 
 ### the perhaps recloning is less of a problem -- but knoppix.sh there
-Xdialog --title "GROW_KNOPPIX " --no-tags --radiolist "\n\
+Xdialog --title "GROW_KNOPPIX 8" --no-tags --radiolist "\n\
 Use this option if you need to:\n\
 Save configuration for desktop, programs, net, graphic, or printer.\n\n\
 Warning: Do not use this if the DVD will be used with different computers.\n\
@@ -496,7 +499,7 @@ chmod 777 /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 #  hwclock | sed 's/ /_/g' | sed 's/............seconds/_|_/' > /var/tmp/GK_PUBLISHER2
 # uname -snrv | sed 's/ /_/g' >> /var/tmp/GK_PUBLISHER2
 echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
-Xdialog --title "GROW_KNOPPIX " --inputbox "\
+Xdialog --title "GROW_KNOPPIX 9" --inputbox "\
                           FINAL CHECK\n\n\
 Clone directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
 -->$KNOPPIX_PATH\n\n\
@@ -584,7 +587,7 @@ if [ $BURN_SPEED = "iso" ]; then
 exit
 fi    
 
-Xdialog --title "GROW_KNOPPIX " --yesno "\
+Xdialog --title "GROW_KNOPPIX 10" --yesno "\
 If you did a dry run, look at the results.\n\
 If it says:       Writing:         the test may have been good.\n\
 Close the results box.  Then you may click YES to burn the DVD.\n\n\
