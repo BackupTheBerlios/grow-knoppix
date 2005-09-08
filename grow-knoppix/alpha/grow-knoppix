@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.102 2005/09/03 04:41:33 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.103 2005/09/08 05:36:43 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.103  2005/09/08 05:36:43  paradocs
+# kanotix only for   unionrw   unionro  warning
+#
 # Revision 1.102  2005/09/03 04:41:33  paradocs
 # page number for the 10 screens
 #
@@ -323,7 +326,7 @@ Optional: In addititon, content may also come from up to 3 more directories.\n\
 The directory itself is not created on the DVD, only it's contents is added,\n\
 together with others, to the DVD root. Use a Container Directory if needed.\n\
 Do not use files or directories of the same name.\n\n\
-To add new programs you may build a union file system on an hard drive:\n\
+To add new programs in kanotix only, build a union file system on an hard drive:\n\
 1) Make an empty folder and file.   dd if=/dev/zero of=myunion-image count=1M\n\
 1) Format the file.  For example:   mkfs.ext3 myunion-image\n\
 2) Boot with a cheat code           unionrw=/mnt/hda5/myunion-image\n\
