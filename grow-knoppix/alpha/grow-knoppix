@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.106 2006/01/16 09:25:25 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.107 2006/01/16 09:28:17 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.107  2006/01/16 09:28:17  paradocs
+# screens renumbered
+#
 # Revision 1.106  2006/01/16 09:25:25  paradocs
 # CDNAME may now be entered
 #
@@ -532,7 +535,7 @@ rm /var/tmp/GK_CDNAME
 #  hwclock | sed 's/ /_/g' | sed 's/............seconds/_|_/' > /var/tmp/GK_PUBLISHER2
 # uname -snrv | sed 's/ /_/g' >> /var/tmp/GK_PUBLISHER2
 echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
-Xdialog --title "GROW_KNOPPIX 9" --inputbox "\
+Xdialog --title "GROW_KNOPPIX 10" --inputbox "\
                           FINAL CHECK\n\n\
 Clone directory  KNOPPIX  with the file  KNOPPIX  is at:\n\
 -->$KNOPPIX_PATH\n\n\
@@ -619,7 +622,7 @@ if [ $BURN_SPEED = "iso" ]; then
 exit
 fi    
 
-Xdialog --title "GROW_KNOPPIX 10" --yesno "\
+Xdialog --title "GROW_KNOPPIX 11" --yesno "\
 If you did a dry run, look at the results.\n\
 If it says:       Writing:         the test may have been good.\n\
 Close the results box.  Then you may click YES to burn the DVD.\n\n\
