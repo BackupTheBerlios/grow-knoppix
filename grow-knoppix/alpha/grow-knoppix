@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.105 2006/01/16 05:19:58 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.106 2006/01/16 09:25:25 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.106  2006/01/16 09:25:25  paradocs
+# CDNAME may now be entered
+#
 # Revision 1.105  2006/01/16 05:19:58  paradocs
 # Changed to work with kanotix 2005-04
 #
@@ -69,7 +72,8 @@ BURN_SPEED="0"
 ISO_DEFAULT="/mnt/hda-/my.iso"
 # Default path to the directory KNOPPIX where file KNOPPIX is found
 KNOPPIX_PATH="/cdrom"
-PUBLISHER="PUBLISHED_BY_____________VERSION______________" 
+PUBLISHER="PUBLISHED_BY_____________VERSION______________"
+CDNAME="GROW_KNOPPIX_CLONE"
 XDIALOG_HIGH_DIALOG_COMPAT=1
 export XDIALOG_HIGH_DIALOG_COMPAT
 #XDIALOG_INFOBOX_TIMEOUT=1000000
@@ -505,6 +509,22 @@ fi
 EOT
 chmod 777 /var/tmp/GK_KNOPPIX/KNOPPIX/knoppix.sh
 
+# GET A NAME FOR THE NEW CD
+echo -n "CDNAME=\"" > /var/tmp/GK_CDNAME
+Xdialog --title "GROW_KNOPPIX 9" --inputbox "\
+\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
+OK                                 CANCEL\n\n\n\n\
+This CD name will be given to the new CD or DVD.\n\
+Keep it short as it will show on the desktop CD icon.\n\
+(up to 128 char, no spaces, no special characters)\n\\n\
+" 35 85 $PUBLISHER 2>> /var/tmp/GK_CDNAME
+EXIT_CODE=$?
+echo -n "\"" >> /var/tmp/GK_CDNAME
+. /var/tmp/GK_CDNAME
+CDNAME=${CDNAME%?}
+rm /var/tmp/GK_CDNAME
+
+
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
 # the following reads these strings from the new DVD
 ### data="`dd if=/dev/cdrom ibs=1024 skip=32 count=1 2>/dev/null`"
@@ -537,7 +557,6 @@ PUBLISHER=${PUBLISHER%?}
 rm /var/tmp/GK_PUBLISHER
 
 if [ $EXIT_CODE -ne 1 ] ; then \
-
 #######REPEATED CODE
 mkdir /var/tmp/BindCD
 mkdir /var/tmp/BindCD/KNOPPIX
@@ -564,7 +583,7 @@ echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 fi
 
 echo -n "-pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix    ' -publisher $PUBLISHER -p 'preparer_id' " >> /var/tmp/GK_BURN
+echo -n "-V $CDNAME -publisher $PUBLISHER -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
@@ -640,7 +659,7 @@ if [ $BURN_SPEED != "0" ]; then
 fi
 echo -n "-Z $DVD_DEV " >> /var/tmp/GK_BURN
 echo -n " -pad -l -r -J -v -sort /var/tmp/GK_SORT " >> /var/tmp/GK_BURN
-echo -n "-V 'grow_knoppix1234' -publisher $PUBLISHER -p 'preparer_id' " >> /var/tmp/GK_BURN
+echo -n "-V $CDNAME -publisher $PUBLISHER -p 'preparer_id' " >> /var/tmp/GK_BURN
 echo -n "-A 'grow-knoppix.berlios.de' ">> /var/tmp/GK_BURN
 if [ $BOOT_VERSION = "boot.img" ] ; then 
     echo -n "-b boot.img -c boot.cat " >> /var/tmp/GK_BURN
