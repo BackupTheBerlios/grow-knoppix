@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.108 2006/01/16 09:35:03 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.109 2006/01/16 09:43:53 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.109  2006/01/16 09:43:53  paradocs
+# specify no space in CD name, leave name in /var/tmp to test
+#
 # Revision 1.108  2006/01/16 09:35:03  paradocs
 # corrected default name in blank
 #
@@ -522,13 +525,13 @@ Xdialog --title "GROW_KNOPPIX 9" --inputbox "\
 OK                                 CANCEL\n\n\n\n\
 This CD name will be given to the new CD or DVD.\n\
 Keep it short as it will show on the desktop CD icon.\n\
-(no special characters)\n\\n\
+(no spaces, use underscores, no special characters)\n\\n\
 " 35 85 $CDNAME 2>> /var/tmp/GK_CDNAME
 EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_CDNAME
 . /var/tmp/GK_CDNAME
 CDNAME=${CDNAME%?}
-rm /var/tmp/GK_CDNAME
+### rm /var/tmp/GK_CDNAME
 
 
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
