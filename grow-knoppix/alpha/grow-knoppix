@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.107 2006/01/16 09:28:17 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.108 2006/01/16 09:35:03 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.108  2006/01/16 09:35:03  paradocs
+# corrected default name in blank
+#
 # Revision 1.107  2006/01/16 09:28:17  paradocs
 # screens renumbered
 #
@@ -519,8 +522,8 @@ Xdialog --title "GROW_KNOPPIX 9" --inputbox "\
 OK                                 CANCEL\n\n\n\n\
 This CD name will be given to the new CD or DVD.\n\
 Keep it short as it will show on the desktop CD icon.\n\
-(up to 128 char, no spaces, no special characters)\n\\n\
-" 35 85 $PUBLISHER 2>> /var/tmp/GK_CDNAME
+(no special characters)\n\\n\
+" 35 85 $CDNAME 2>> /var/tmp/GK_CDNAME
 EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_CDNAME
 . /var/tmp/GK_CDNAME
