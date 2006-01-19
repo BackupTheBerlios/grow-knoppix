@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.109 2006/01/16 09:43:53 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/alpha/grow-knoppix,v 1.110 2006/01/19 05:51:14 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.110  2006/01/19 05:51:14  paradocs
+# fix index.html   /cdrom not /mnt/cdrom    I cannot remove the showindex
+#
 # Revision 1.109  2006/01/16 09:43:53  paradocs
 # specify no space in CD name, leave name in /var/tmp to test
 #
@@ -311,9 +314,10 @@ echo -n "\"" >> /var/tmp/GK_KNOPPIX_PATH
 
 cp -u /mnt/cdrom/KNOPPIX/boot.img /home/knoppix/GROW_KNOPPIX/KNOPPIX/boot.img
 cp -uRf /mnt/cdrom/boot /home/knoppix/GROW_KNOPPIX/ROOT/
-## delete the one above ??  below works for kanotix2005-04
+## delete the /mnt ones above ??  works for kanotix2005-04
 cp -uRf /cdrom/boot /home/knoppix/GROW_KNOPPIX/ROOT/
 cp -u /mnt/cdrom/index.html /home/knoppix/GROW_KNOPPIX/ROOT/index.html
+cp -u /cdrom/index.html /home/knoppix/GROW_KNOPPIX/ROOT/index.html
 chmod -R 777 /home/knoppix/GROW_KNOPPIX/ROOT
 rm -f /home/knoppix/GROW_KNOPPIX/ROOT/boot/isolinux/boot.cat
 rm -f /home/knoppix/GROW_KNOPPIX/ROOT/boot/grub/boot.cat
@@ -393,10 +397,10 @@ Enter a number in the first field to position and size the picture.\n\
     1 Centered   2 Tiled   3 Center Tiled   4 Centered Maxpect\n\
     5 Tiled Maxpect   6 Scaled   7 Centered Auto Fit   8 Scale & Crop\n\n\
 Enter path and file name for a Wallpaper image -- png jpg svgz \n\n\n\
-To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\
-Try different Picture and Position settings.\n\n\
+To test a wallpaper right-click the KDE desktop and pick Configure Desktop.\n\n\
 This will make a file /home/knoppix/.kde/Autostart/wallpaper\n\
-A second method is to place a file background.png in GROW_KNOPPIX\KNOPPIX\n\n\
+A second method is to place a file background.png in GROW_KNOPPIX\KNOPPIX\n\
+   Use both methods for a nice boot up change of background effect.\n\
                  OK               or            Cancel\
 " 35 85 "Position and Size Mode -- Enter a mode number bewteen 1 and 8 " $WALLPAPER_MODE \
 "/path/path/image.jpg -- Enter the path and name of a wallpaper file." \
@@ -531,7 +535,7 @@ EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_CDNAME
 . /var/tmp/GK_CDNAME
 CDNAME=${CDNAME%?}
-### rm /var/tmp/GK_CDNAME
+rm /var/tmp/GK_CDNAME
 
 
 # NOT IMPORTANT?  can put strings in the disk header but are they useful  ????
