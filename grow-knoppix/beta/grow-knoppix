@@ -1,10 +1,10 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/beta/grow-knoppix,v 1.1 2008/12/20 07:10:36 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/beta/grow-knoppix,v 1.2 2008/12/27 08:00:31 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
-# Revision 1.1  2008/12/20 07:10:36  paradocs
-# New for KNOPPIX DVD 3.5.1
+# Revision 1.2  2008/12/27 08:00:31  paradocs
+# Fixed index.html addition
 #
 # Revision 1.110  2006/01/19 05:51:14  paradocs
 # fix index.html   /cdrom not /mnt/cdrom    I cannot remove the showindex
@@ -33,12 +33,13 @@ CHEAT_TIMEOUT="300"
 ##### END OF DEFAULTS YOU MAY CHANGE #####
 CHEAT_CODES="lang=$LANGUAGE"
 BOOT_VERSION="isolinux.bin"
+DIALOG_LANGUAGE="en"
 ############END OF DEFAULT#########
 XDIALOG_HIGH_DIALOG_COMPAT=1
 export XDIALOG_HIGH_DIALOG_COMPAT
 #XDIALOG_INFOBOX_TIMEOUT=1000000
 #export XDIALOG_INFOBOX_TIMEOUT
-echo -n "DIALOG_LANGUAGE=\"" > /var/tmp/GK_DIALOG_LANGUAGE
+echo -n "REUSE_GROW_KNOPPIX=\"" > /var/tmp/GK_REUSE_GROW_KNOPPIX
 Xdialog --title "GROW_KNOPPIX 1" --no-tags --radiolist "\n\n\
              GROW_KNOPPIX:\n\n\
 Publish your content in the root of a new KNOPPIX based bootable DVD.\n\
@@ -47,17 +48,21 @@ Veröffentlichen Sie Ihre Inhalt in die root einer neuen Knoppix basierten\n\
              bootfähige DVD.\n\
 Ändere die Datei boot, das Hintergrundbild, die index.html und den Desktop.\n\n\
 SHORT CUTS:  CTRL V to paste.\n\
-             Save /home/knoppix/GROW_KNOPPIX and reuse.\n\
-             Edit DEFAULTS at the top of the script.\n\n\n\n\
+             Edit DEFAULTS at the top of the script.\n\n\n\n\n\
              OK     I have read             Cancel   Please read the help\n\
              the copyright and help.        and the GNU copyright.\n\n\
              OK. Ich habe die Bestimmungen  Cancel   Bitte lese die Hilfe\n\
              und Hilfe gelesen.             und das GNU copyright.\n\
-" 35 85 10 "en" "English" "on" "de" "Deutsch ( nicht jetzt )" "off" 2>> /var/tmp/GK_DIALOG_LANGUAGE
+" 35 85 10 "reuse" "Reuse the previous /home/knoppix/GROW_KNOPPIX that may exist." "on" "delete" "Erase the previous /home/knoppix/GROW_KNOPPIX to start over." "off" 2>> /var/tmp/GK_REUSE_GROW_KNOPPIX
 EXIT_CODE=$?
-echo -n "\"" >> /var/tmp/GK_DIALOG_LANGUAGE  #End quote for variable in file
-. /var/tmp/GK_DIALOG_LANGUAGE                #Source: run the file, set variable
-DIALOG_LANGUAGE=${DIALOG_LANGUAGE%?}         #Trim off tail
+echo -n "\"" >> /var/tmp/GK_REUSE_GROW_KNOPPIX  #End quote for variable in file
+. /var/tmp/GK_REUSE_GROW_KNOPPIX                #Source: run the file, set variable
+REUSE_GROW_KNOPPIX=${REUSE_GROW_KNOPPIX%?}         #Trim off tail
+echo $REUSE_GROW_KNOPPIX
+if [ "$REUSE_GROW_KNOPPIX" == "delete" ] ; then \
+rm -R -f /home/knoppix/GROW_KNOPPIX
+fi
+
 if [ $EXIT_CODE -ne 0 ] ; then \
 Xdialog --title "GROW_KNOPPIX " --msg "\
   Copyright (C) 2004   David M. Tan Creti <paradocs@berlios.de>\n\
@@ -90,14 +95,20 @@ echo -n "BURN_ISO=\"" > /var/tmp/GK_BURN_ISO
 Xdialog --title "GROW_KNOPPIX  2" --no-tags --radiolist "\n\n\
                   SAVE TO:\n\n\
 You must boot from an original KNOPPIX CD DVD or iso file.\n\n\
-KNOPPIX versions with /boot/isolinux/isolinux.cfg may work\n\n\n\
-Burn Driectly:    RECOMENDED\n\
-                  Burn with a 2nd internal or a 2nd external usb drive.\n\n\
-Boot from ios:    POSSIBLE\n\
-                  Boot methods exist to leave a single DVD drive free.\n\n\
-Make an ISO:      CAUTION\n\
-                  The DVD iso is too large for a vfat drive.\n\
-                  You may write it to an ext3 formated disk or partition.\n\
+KNOPPIX versions with /boot/isolinux/isolinux.cfg may work\n\
+               Tested with KNOPPIX DVD 5.3.1\n\n\
+Burn Driectly: RECOMENDED\n\
+               Burn with a 2nd internal or a 2nd external usb drive.\n\n\
+Boot from ios: POSSIBLE\n\
+               Have a original KNOPPIX iso file on an ext3 partition. e.g. hdb1\n\
+               Boot a DVD, cheat code:\n\
+                                      knoppix bootfrom=/dev/hdb1/KNOPPIX_*.iso\n\
+               Remove the DVD to free up your drive to burn with grow-knoppix.\n\n\
+Make an ISO:   CAUTION\n\
+               The DVD iso is too large for a vfat drive.\n\
+               Make KNOPPIX25-attempt.iso in an ext3 formated partition.\n\
+               Test with cheat code   knoppix bootfrom=/dev/hdb1/KNOPPIX25*.iso\n\
+               Then burn the ios to a DVD when you are sattisified.\n\
 " 35 85 10 \
 "dvd" "Burn directly to a DVD burner" "on" \
 "iso" "Make an iso file on your hard drive to burn later." "off" 2>> /var/tmp/GK_BURN_ISO
@@ -106,7 +117,7 @@ EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_BURN_ISO
 . /var/tmp/GK_BURN_ISO
 BURN_ISO=${BURN_ISO%?} 
-if [ $BURN_ISO = "iso" ] ; then DVD_BURNER=$ISO_DEFAULT ; BURN_SPEED="iso" ; fi 
+if [ "$BURN_ISO" = "iso" ] ; then DVD_BURNER=$ISO_DEFAULT ; BURN_SPEED="iso" ; fi 
 if [ $EXIT_CODE -ne 0 ] ; then exit; fi
 
 # set a variable with the DVD write device
@@ -146,6 +157,7 @@ mkdir /home/knoppix/GROW_KNOPPIX/HOME
 mkdir /home/knoppix/GROW_KNOPPIX/AUTOSTART
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/KNOPPIX
 mkdir /home/knoppix/GROW_KNOPPIX/DESKTOP
+mkdir /home/knoppix/GROW_KNOPPIX/MODULE
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/Books
 mkdir /home/knoppix/GROW_KNOPPIX/ROOT/usr.bin
 #  show intro    yes or no
@@ -161,16 +173,18 @@ You must make the original index.html information available.\n\
 Give credit to KNOPPIX with the COPYRIGHT notices and DISCLAIMER.\n\n\
 Please support open source software and GNU GENERAL PUBLIC LICENSE\n\
 " 35 85 10 \
-"yes"  "SHOW the original intro index.html            Show each boot." "on" \
+"yes"  "SHOW intro index.html. Use existing file.     Show each boot." "on" \
 "adds" "ADD  to the intro from the next dialog.       Show each boot." "off" \
 "addn" "ADD  to the intro from the next dialog.       Do not show." "off" \
-"no"   "HIDE the intro index.html.                    Do not show." "off" \
+"no"   "HIDE intro index.html. Use existing file.     Do not show." "off" \
 2>> /var/tmp/GK_SHOW_INTRO
 EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_SHOW_INTRO
 . /var/tmp/GK_SHOW_INTRO
 SHOW_INTRO=${SHOW_INTRO%?}
-if [ $EXIT_CODE -ne 0 ] ; then exit; fi
+if [ $EXIT_CODE -ne 0 ] ; then \
+exit
+fi
 if [ $SHOW_INTRO == "no" -o $SHOW_INTRO == "addn" ] ; then \
 cat > "/var/tmp/GK_START/home/knoppix/.kde/Autostart/kill_index" << EOT
 #!/bin/bash
@@ -179,22 +193,30 @@ kill -kill \`ps aux | grep cdrom/i |  awk '{print $2}'\`
 EOT
 chmod 777 /var/tmp/GK_START/home/knoppix/.kde/Autostart/kill_index
 fi
-
+if [ $SHOW_INTRO == "no" -o $SHOW_INTRO == "yes" ] ; then \
+if [ ! -e /home/knoppix/GROW_KNOPPIX/ROOT/index.html ] ; then \
+cat /cdrom/index.html > /home/knoppix/GROW_KNOPPIX/ROOT/index.html
+fi
+INTRO_PROJECT_NAME="No Change"
+INTRO_ABOUT="No Change"
+INTRO_PROJECT_LINK="No Change"
+fi
 ################  add new into information
 echo -n "INTRO_HTML=\"" > /var/tmp/GK_INTRO_HTML
 Xdialog --title  "GROW_KNOPPIX 5" --separator "|" --3inputsbox "\
       --optinal         ADD TO INTRODUCTION\n\n\
-If you did not select   ADD to the intro     ignore and just hit    OK\n\
-If you did     select   ADD to the intro     these lines will be added.\n\n\
-You may edit them now.                       Then hit  OK.\n\n\n\n\
+If this shows           No Change            ignore and hit         OK\n\
+If you selected         ADD to the intro     these lines will be added.\n\n\
+You may edit them now.                       Then hit  OK.\n\
+                        Do not use a % sign in these lines.\n\n\n\
 " 35 85 "ATTRIBUTION LINE you may change this in DEFAULTS at the top of this script.\n\
        $INTRO_ATTRIBUTION_LINE\n\n\
 PROJECT TITLE large font allows 30 characters.\n\
 -----centered top of index.html" \
 "$INTRO_PROJECT_NAME" "ABOUT YOUR PROJECT small font allows 80 character lines\n\
 -----use <br> between lines of text" \
-"$INTRO_ABOUT" "PROJECT LINK --remember to use ] in place of / in all fields\n\
------examples: ]cdrom]KNOPPIX]LICENSE.txt  ]cdrom]page2.html  http:]]google.com" \
+"$INTRO_ABOUT" "PROJECT LINK \n\
+-----examples: /cdrom/KNOPPIX/LICENSE.txt  /cdrom/page2.html  http://google.com" \
 "$INTRO_PROJECT_LINK" 2>> /var/tmp/GK_INTRO_HTML
 EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_INTRO_HTML  #End quote for variable in file
@@ -204,7 +226,6 @@ INTRO_HTML=${INTRO_HTML%?}
 #  cannot allow / in input  so use  ]  and subustitue with V=${V//]//}
 #INTRO_HTML=${INTRO_HTML//]//}
 if [ $SHOW_INTRO == "adds" -o $SHOW_INTRO == "addn" ] ; then \
-
 INTRO_PROJECT_NAME=${INTRO_HTML%%|*}
 INTRO_ABOUT=${INTRO_HTML%|*}
 INTRO_ABOUT=${INTRO_ABOUT##*|}
@@ -217,27 +238,28 @@ echo $INTRO_PROJECT_LINK
 echo @@@@@@@@@@@@@@
 INTRO_ADD="<div align=center><FONT SIZE=+4><A href=$INTRO_PROJECT_LINK>$INTRO_PROJECT_NAME<\/A><\/FONT>\n<br>$INTRO_ABOUT\n<br>$INTRO_ATTRIBUTION_LINE<\/div>"
 echo $INTRO_ADD
-sed  "s/\(<BODY.*>\)/\1\n$INTRO_ADD/" /cdrom/index.html > /home/knoppix/GROW_KNOPPIX/ROOT/index.html
+sed  "s%\(<BODY.*>\)%\1\n$INTRO_ADD%" /cdrom/index.html > /home/knoppix/GROW_KNOPPIX/ROOT/index.html
 fi
-
 # add content by dragging files to GROW_KNOPPIX/ROOT, no change needed
 echo -n "KNOPPIX_PATH=\"" > /var/tmp/GK_KNOPPIX_PATH
 Xdialog --title "GROW_KNOPPIX  6" --inputbox "\
              --optional     COPY NEW CONTENT\n\n\
-          Copy and paste now.  The next dialog lets you add content by links.\n\
-                               Caution: Do not combine files of the same name.\n\n\
+          Copy and paste into these directories in /home/knoppix/GROW_KNOPPIX.\n\
+                      Caution: Do not combine files of the same name.\n\n\
 ROOT      Content:    Files in GROW_KNOPPIX/ROOT will be on the DVD root.\n\
           Wallpaper:  Copy a .jpg file here for a new desktop wallpaper.\n\
           index.html: You may edit, show, or choose do not show this html.\n\n\
-HOME      GROW_KNOPPIX/HOME to be copied to your home directory.\n\n\
-usr.bin   GROW_KNOPPIX/usr.bin executable files are copied to /usr/bin\n\n\
+HOME      Files placed here will be copied to your home directory.\n\n\
+usr.bin   GROW_KNOPPIX/usr.bin executable files may be coppied to /usr/bin\n\n\
 AUTOSTART Executable scripts and links run when KDE desktop is setup.\n\n\
 DESKTOP   Add links to applications, help files, and content.\n\n\
 boot      GROW_KNOPPIX/ROOT/boot/isolinux/ contains isoliunx.cfg which may be\n\
-          edited to automatically boot with your cheat codes.\n\n\
-      OK  Continue to dialog 7 to add       Cancel   You may exit to work on\n\
-          content by path links.                     content and return later.\n\n\
-          Do not change anything here.      /cdrom is the source of KNOPPIX\
+          edited to automatically boot with your cheat codes.\n\n\n\
+          OK  Continue to dialog 7 to add     Cancel   You may exit to work and\n\
+              content by path links.                   return later.\n\n\
+MODULE    You may copy a grow-knoppix module  module-name-gk-mod.tzb  to MODULE\n\
+          or enter a file path or an internet link on the line below.\n\
+          Caution: You must take the responsiblity for trusting any download.\n\
 "   35 85 $KNOPPIX_PATH  2>> /var/tmp/GK_KNOPPIX_PATH
 EXIT_CODE=$?
 echo -n "\"" >> /var/tmp/GK_KNOPPIX_PATH
@@ -339,7 +361,7 @@ fi
 ##### Make a console with working directory for flash drive
 echo -n "FLASH_DRIVE_TERMINAL=\"" > /var/tmp/GK_FLASH_DRIVE_TERMINAL
 Xdialog --title "GROW_KNOPPIX  9" --3inputsbox "\
-        --optional    WORKING DIRECTORY ICONS -- REMOVABLE MEDIA\n\n\
+        --optional    DESKTOP WORKING DIRECTORY ICONS -- REMOVABLE MEDIA\n\n\
 Open a writable directory on removable vfat media from desktop icons.\n\
     These atomatically mount and become writeable each time they are clicked.\n\
     A vfat flash drive allows sharing of files with other computer systems.\n\n\
@@ -347,11 +369,12 @@ Caution: This is only allowed for vfat formated flash drives. Do not use ntfs.\n
     In addition you must give permission to write to the drive by first making\n\
     a file named   ok2write   on the drive. The file may be empty.\n\
     If this file does not exist, then you must mount and make writable by hand.\n\n\
-Line 2 gives a parameter to konsole. To see options, from a shell type:\n\
+Line 2  Give a parameter to konsole. To see options, from a shell type:\n\
     konsole --schema    konsole --profiles   konsole --help\n\
     Do not type in the    --    in line 2 below.  Look at the examples.\n\n\
+Line 3  Give a path the a removable usb flash drive. Leave none for no icon.\n\n\
       OK    Mount writable media             Cancel\n\
-            Leave  none  for NO.             Exit and return later \n\
+            Leave  none  for NO.             Exit and return later \
 " 35 85 "Title" "$FLASH_DRIVE_NAME" "schema Transparent_darkbg <--Example" "$FLASH_DRIVE_PARAMETERS" "/media/sda1  /media/sda1/PersonalFiles <--Examples --workdir path" "$FLASH_DRIVE_PATH" 2>> /var/tmp/GK_FLASH_DRIVE_TERMINAL
 EXIT_CODE=$?
 if [ $EXIT_CODE -ne 0 ] ; then \
@@ -410,7 +433,7 @@ Terminal=false
 TerminalOptions=
 Type=Application
 X-DCOP-ServiceType=
-X-KDE-SubstituteUID=false
+X-KDE-SubstituteUID=
 X-KDE-Username=
 EOT
 # a command in /usr/bin to check status and mount, then mount or remount rw
@@ -532,7 +555,7 @@ Warning:  This may interfear with using different computers and new hardware.\n\
           This will place configs.tbz and knoppix.sh in /KNOPPIX/KNOPPIX\n\n\
 Limits:   Once saved configuration files may not be changed.\n\
           A persistent home may be considered as an  alternative.\n\n\
-Set Up:   Run the applications you wish to pre-configure now.\n\
+	  Set Up:   Run the applications you wish to pre-configure now.\n\
           Some applications will then start with the settings created now.\n\n\
 Advanced: You may copy configurations by hand with out this option.\n\
           Scripts can be made to set up the options you prefer.\n\n\
@@ -576,37 +599,43 @@ echo "[1mExtracting config archive \$CONFIGS...[0m"
 tar -jpPtf "\$CONFIGS" | while read i; do rm -f "\$i"; done
 tar -jpPxf "\$CONFIGS" ; chown -R knoppix.knoppix /home/knoppix
 fi
-if [ -f /cdrom/grow-knoppix.tbz ]; then
+#if [ -f /cdrom/grow-knoppix.tbz ]; then \
 #tar -jpPtf /cdrom/grow-knoppix.tbz | while read i; do rm -f "\$i"; done
-tar -jpPxf /cdrom/grow-knoppix.tbz
+#tar -jpPxf /cdrom/grow-knoppix.tbz
+#chown -R knoppix.knoppix /home/knoppix
+#fi
+for mod in /cdrom/*.tbz
+do
+if [ -f \$mod ] ; then \
+tar -jpPtf \$mod | while read i; do rm -f "\$i"; done
+tar -jpPxf \$mod
+fi
+done
 chown -R knoppix.knoppix /home/knoppix
 cp /cdrom/usr.bin/* /usr/bin/
 cp /cdrom/usr.bin/.* /usr/bin/
-fi
 EOT
 chmod 777 /home/knoppix/GROW_KNOPPIX/ROOT/KNOPPIX/knoppix.sh
 
 # FINAL CHECK
 echo -n "PUBLISHER=\"" > /var/tmp/GK_PUBLISHER
 Xdialog --title "GROW_KNOPPIX 11" --2inputsbox "\
-                          FINAL CHECK\n\
-Source DVD  -->$KNOPPIX_PATH\n\
+                           FINAL CHECK        insert blank DVD if burning\n\
 Burn / save -->$DVD_DEV\n\
 Speed / iso -->$BURN_SPEED\n\
 INTRO Show  -->$SHOW_INTRO\n\
       Name  -->$INTRO_PROJECT_NAME\n\
       About -->$INTRO_ABOUT\n\
       Link  -->$INTRO_PROJECT_LINK\n\
-Wallpaper   -->$WALLPAPER_FILE\n\
- position   -->$WALLPAPER_MODE\n\
 Cheat Codes -->$CHEATS\n\
  Boot Wait  -->$TIMEOUT\n\
+Working Dir -->$FLASH_DRIVE_PATH\n\
+gk-module   -->\n\
+Wallpaper   -->$WALLPAPER_FILE\n\
+ position   -->$WALLPAPER_MODE\n\
 Save Config -->$SAVE_CONFIG\n\
-Mount USB   -->$FLASH_RW\n\
-You are bringing together content from:\n\
--->$DVD_ROOT\n\
-                    OK   make ios -or-             CANCEL\n\
- Insert a DVD for a dry-run burn test.             to exit\
+Content     -->$DVD_ROOT\n\n\
+        OK   make ios -or- dry-run burn test       CANCEL\
 " 35 85 "A short name for this DVD to show on the desktop icon." \
 $CDNAME "DVD header up to 128 char, no spaces, no special characters" \
 $PUBLISHER 2>> /var/tmp/GK_PUBLISHER
