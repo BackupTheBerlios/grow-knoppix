@@ -1,8 +1,11 @@
 #! /bin/bash
-# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/beta/grow-knoppix,v 1.2 2008/12/27 08:00:31 paradocs Exp $
+# $Header: /home/xubuntu/berlios_backup/github/tmp-cvs/grow-knoppix/Repository/grow-knoppix/beta/grow-knoppix,v 1.3 2008/12/28 03:56:00 paradocs Exp $
 # Checkout tag $Name:  $
 ###########AUTHOR'S LOG############
 # $Log: grow-knoppix,v $
+# Revision 1.3  2008/12/28 03:56:00  paradocs
+# A trivial comment change
+#
 # Revision 1.2  2008/12/27 08:00:31  paradocs
 # Fixed index.html addition
 #
@@ -90,7 +93,7 @@ see            http://grow-knoppix.berlios.de/\n\n\
 exit
 fi
 
-# get direct burn  or  make iso
+# get direct burn  or  make the iso
 echo -n "BURN_ISO=\"" > /var/tmp/GK_BURN_ISO
 Xdialog --title "GROW_KNOPPIX  2" --no-tags --radiolist "\n\n\
                   SAVE TO:\n\n\
